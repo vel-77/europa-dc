@@ -1,0 +1,160 @@
+{
+  "settings": {
+    "siteName": "Europa Design Center",
+    "heroTitle": "Your kitchen starts as a drawing.",
+    "heroText": "Europa DC designs, supplies and installs European kitchens, baths and closets from our showroom in Glendale.",
+    "address": "1217 West Glenoaks Blvd.\r\nGlendale, CA 91201",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=1217+West+Glenoaks+Blvd+Glendale+CA+91201",
+    "phone": "+1 (818) 696-2600",
+    "email": "Admin@EuropaDC.pro",
+    "hours": "",
+    "instagramHandle": "europa.dc"
+  },
+  "categories": [
+    {
+      "id": "cabinets",
+      "name": "Cabinets",
+      "blurb": "Custom European cabinetry.",
+      "items": [
+        "Kitchens",
+        "Closets",
+        "Vanities"
+      ]
+    },
+    {
+      "id": "stonework",
+      "name": "Stonework",
+      "blurb": "Natural and engineered stone for every surface.",
+      "items": [
+        "Countertops",
+        "Flooring",
+        "Wall cladding",
+        "Fireplaces"
+      ]
+    },
+    {
+      "id": "appliances",
+      "name": "Appliances",
+      "blurb": "Built-in appliances, planned together with the cabinetry.",
+      "items": []
+    },
+    {
+      "id": "hardware",
+      "name": "Hardware",
+      "blurb": "Custom handles and pulls.",
+      "items": [
+        "Custom hardware"
+      ]
+    },
+    {
+      "id": "doors",
+      "name": "Doors",
+      "blurb": "Exterior and interior doors.",
+      "items": [
+        "Exterior, custom",
+        "Interior"
+      ]
+    },
+    {
+      "id": "decorative-panels",
+      "name": "Decorative panels",
+      "blurb": "Wall panels as a finished surface.",
+      "items": []
+    },
+    {
+      "id": "custom-mirrors",
+      "name": "Custom mirrors",
+      "blurb": "Mirrors made to size.",
+      "items": []
+    },
+    {
+      "id": "plumbing-fixtures",
+      "name": "Plumbing fixtures",
+      "blurb": "Faucets, sinks and shower fittings.",
+      "items": []
+    }
+  ],
+  "brands": [
+    {
+      "id": "3872372c-2fa9-4a98-9c8d-913eb45f25ae",
+      "name": "Miele",
+      "categoryId": "appliances",
+      "url": "https://www.mieleusa.com",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "8ee1f3b5-49a8-4ea8-a367-f6f77b910d8b",
+      "name": "Gaggenau",
+      "categoryId": "appliances",
+      "url": "https://www.gaggenau.com/us",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "5983650c-a880-4c23-981c-2f0615334c80",
+      "name": "SMEG",
+      "categoryId": "appliances",
+      "url": "https://www.smegusa.com",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "5e30bc10-003b-49c0-b3cf-f4663d5ec688",
+      "name": "PITT",
+      "categoryId": "appliances",
+      "url": "https://www.pittcooking.com",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "b5b704df-ed0d-42f6-826e-5c4bd6506bb2",
+      "name": "Invisacook",
+      "categoryId": "appliances",
+      "url": "https://invisacook.com",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "4c06d3d5-c82f-4328-a546-1e0d32614239",
+      "name": "Fisher & Paykel",
+      "categoryId": "appliances",
+      "url": "https://www.fisherpaykel.com/us",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "90b21216-ff1c-4bfd-ab3b-c174de097a47",
+      "name": "Graff",
+      "categoryId": "plumbing-fixtures",
+      "url": "https://www.graff-designs.com",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "53a43b62-de30-4e25-972a-36a7856a015b",
+      "name": "Grohe",
+      "categoryId": "plumbing-fixtures",
+      "url": "https://www.grohe.us",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "02e2835e-a88f-4528-bdff-263ec0107b73",
+      "name": "Hansgrohe",
+      "categoryId": "plumbing-fixtures",
+      "url": "https://www.hansgrohe-usa.com",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "bb7deff4-ac29-443b-84bd-85a01318c066",
+      "name": "Ruvati",
+      "categoryId": "plumbing-fixtures",
+      "url": "https://www.ruvati.com",
+      "logo": null,
+      "visible": true
+    }
+  ],
+  "posts": []
+}
