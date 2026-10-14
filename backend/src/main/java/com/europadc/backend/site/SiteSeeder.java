@@ -101,8 +101,8 @@ class SiteSeeder implements ApplicationRunner {
 
 	/** Copies a bundled image from src/main/resources/seed into the uploads folder. */
 	private String image(String name) {
-		try (InputStream content = new ClassPathResource("seed/" + name + ".jpg").getInputStream()) {
-			return files.storeSeed(content, "jpg");
+		try (InputStream content = new ClassPathResource("seed/" + name + ".webp").getInputStream()) {
+			return files.storeSeed(content, "webp");
 		}
 		catch (IOException exception) {
 			throw new UncheckedIOException(exception);

@@ -26,9 +26,9 @@ const PROCESS = [
 ];
 
 const MATERIALS = [
-  ["Cabinetry", "European cabinetry in veneers, lacquers, and natural woods.", asset("/img/mat-cabinetry.jpg"), ""],
-  ["Fixtures", "Faucets, sinks, and hardware in bronze, nickel, and black.", asset("/img/mat-fixtures.jpg"), "md:mt-24"],
-  ["Architectural details", "Glass, wall panels, and finishing elements that complete the space.", asset("/img/mat-details.jpg"), "md:mt-48"],
+  ["Cabinetry", "European cabinetry in veneers, lacquers, and natural woods.", asset("/img/mat-cabinetry.webp"), ""],
+  ["Fixtures", "Faucets, sinks, and hardware in bronze, nickel, and black.", asset("/img/mat-fixtures.webp"), "md:mt-24"],
+  ["Architectural details", "Glass, wall panels, and finishing elements that complete the space.", asset("/img/mat-details.webp"), "md:mt-48"],
 ];
 
 const pad = (n: number) => String(n + 1).padStart(2, "0");
@@ -151,7 +151,7 @@ export default async function Home() {
             <div className="grid-12 mt-20 lg:mt-32 gap-y-12 items-start">
               <div className="col-span-12 lg:col-span-5 lg:sticky lg:top-28">
                 <div className="frame aspect-[4/5] !bg-ink reveal-img">
-                  <img src={asset("/img/why.jpg")} alt="Stone, light and shadow in a finished kitchen" loading="lazy" />
+                  <img src={asset("/img/why.webp")} alt="Stone, light and shadow in a finished kitchen" loading="lazy" />
                 </div>
               </div>
               <ol className="col-span-12 lg:col-span-6 lg:col-start-7">
@@ -238,7 +238,7 @@ export default async function Home() {
               </div>
               <div className="hidden lg:flex col-span-12 lg:col-span-4 flex-col justify-between gap-10">
                 <div className="frame aspect-[4/3] lg:aspect-auto lg:flex-1 reveal-img">
-                  <img src={asset("/img/mat-dekton-detail.jpg")} alt="Dekton slab detail" loading="lazy" />
+                  <img src={asset("/img/mat-dekton-detail.webp")} alt="Dekton slab detail" loading="lazy" />
                 </div>
                 <p className="text-[0.9375rem] leading-[1.7] text-ink/75 reveal">
                   Seen at the showroom in full slabs, so finish, veining, and edge details can be judged at true scale.

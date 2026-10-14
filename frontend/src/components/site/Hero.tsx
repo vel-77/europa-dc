@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { asset } from "@/lib/asset";
 
-// Frames of the kitchen build-up video, exported with ffmpeg (6 per second).
+// Frames of the kitchen build-up video, exported with ffmpeg (6 per second)
+// in two sizes; large or high-density screens get the full 1080p frames.
 const FRAME_COUNT = 85;
-const frameUrl = (index: number) => asset(`/hero/f${String(index + 1).padStart(3, "0")}.webp`);
+const frameUrl = (index: number, size: 1280 | 1920) => asset(`/hero/${size}/f${String(index + 1).padStart(3, "0")}.webp`);
 
 const STAGES = [
   {
@@ -43,6 +44,7 @@ export function Hero() {
     if (!context) return;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    const size = element.clientWidth * (devicePixelRatio || 1) > 1400 ? 1920 : 1280;
     const frames: (HTMLImageElement | null)[] = Array(FRAME_COUNT).fill(null);
     let shown = -1;
     let target = reduce ? FRAME_COUNT - 1 : 0;
@@ -64,6 +66,7 @@ export function Hero() {
         element.height = height * ratio;
       }
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      context.imageSmoothingQuality = "high";
       context.clearRect(0, 0, width, height);
       const desktop = innerWidth >= 768;
       // Desktop: fit the whole frame, anchored top-right so the copy on the
@@ -89,7 +92,7 @@ export function Hero() {
           resolve();
         };
         image.onerror = () => resolve();
-        image.src = frameUrl(index);
+        image.src = frameUrl(index, size);
       });
     (async () => {
       // First and last frames first, then fill in from the start.
