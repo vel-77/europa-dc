@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
+// Self-hosted (latin subsets from Google Fonts) so builds never depend on a download.
+const cormorant = localFont({
   variable: "--font-cormorant",
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  style: ["normal", "italic"],
+  src: [
+    { path: "../fonts/CormorantGaramond-normal-300-700.woff2", weight: "300 700", style: "normal" },
+    { path: "../fonts/CormorantGaramond-italic-300-700.woff2", weight: "300 700", style: "italic" },
+  ],
 });
-const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"], weight: ["300", "400", "500", "600"] });
+const manrope = localFont({
+  variable: "--font-manrope",
+  src: [{ path: "../fonts/Manrope-normal-200-800.woff2", weight: "200 800", style: "normal" }],
+});
 
 export const metadata: Metadata = {
   title: "Europa Design Center | Kitchens, Bathrooms, Surfaces & Interiors",
