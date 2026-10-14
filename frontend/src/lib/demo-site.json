@@ -1,15 +1,107 @@
 {
   "settings": {
     "siteName": "Europa Design Center",
-    "heroTitle": "Your kitchen starts as a drawing.",
-    "heroText": "Europa DC designs, supplies and installs European kitchens, baths and closets from our showroom in Glendale.",
-    "address": "1217 West Glenoaks Blvd.\r\nGlendale, CA 91201",
+    "address": "1217 West Glenoaks Blvd.\nGlendale, CA 91201",
     "mapUrl": "https://www.google.com/maps/search/?api=1&query=1217+West+Glenoaks+Blvd+Glendale+CA+91201",
     "phone": "+1 (818) 696-2600",
     "email": "Admin@EuropaDC.pro",
     "hours": "",
     "instagramHandle": "europa.dc"
   },
+  "solutions": [
+    {
+      "id": "3c86db12-1cca-403c-92aa-4d1862604e2d",
+      "title": "Kitchens",
+      "description": "Custom kitchen design and cabinetry.",
+      "image": "6e5cde9c-e360-4b65-93f5-f69b9e97ad63.jpg"
+    },
+    {
+      "id": "94a6ab70-2641-4706-82e8-ea88f18001cf",
+      "title": "Bathrooms",
+      "description": "Vanities, fixtures, surfaces, and details",
+      "image": "e8cc902d-4bd7-4534-9f12-c25513b268cf.jpg"
+    },
+    {
+      "id": "b82a6796-b51a-45f4-80ee-56b5bc635a50",
+      "title": "Closets",
+      "description": "Storage solutions designed around your lifestyle",
+      "image": "612b6881-acce-45e0-8dc7-2b2f78e06e9e.jpg"
+    },
+    {
+      "id": "673e63cc-0f31-4069-b43e-1822591f8147",
+      "title": "Outdoor",
+      "description": "Outdoor kitchens and architectural solutions",
+      "image": "f07f38d1-abc2-42f5-a3e6-25097f5cbd72.jpg"
+    },
+    {
+      "id": "9a0171f1-1986-445f-bc07-27a1f1699760",
+      "title": "Surfaces",
+      "description": "Premium stone and architectural surfaces",
+      "image": "83223d31-7b35-4ec2-bf1d-af0b6e305d21.jpg"
+    },
+    {
+      "id": "27f0d5d2-ce3f-4e83-8ef7-4615790002f3",
+      "title": "Details",
+      "description": "Fixtures, glass, wall panels, hardware, and finishing elements",
+      "image": "39fb215f-f4d7-46ab-8c92-809ea80cd461.jpg"
+    }
+  ],
+  "projects": [
+    {
+      "id": "df12bfce-7517-4607-affb-f217090e20ef",
+      "title": "Hillside Residence",
+      "tags": "x",
+      "location": "y",
+      "cover": "f8757856-2ce3-4d2f-9161-72bf2664512c.jpg",
+      "gallery": []
+    },
+    {
+      "id": "ab7668c2-11c7-481d-a291-eebb986308d6",
+      "title": "Silver Lake Primary Bath",
+      "tags": "Bathroom / Stone vanity / Brushed nickel",
+      "location": "Los Angeles",
+      "cover": "0b5da3da-67e7-438e-aef5-bde108490a57.jpg",
+      "gallery": []
+    },
+    {
+      "id": "0c50bc1c-0fba-43d5-a621-800b7b26227b",
+      "title": "Pasadena Modern",
+      "tags": "Complete interior / Kitchen / Bath / Closets / Wall panels",
+      "location": "Pasadena",
+      "cover": "e703c143-5445-4925-865e-cee0a2b451a4.jpg",
+      "gallery": []
+    },
+    {
+      "id": "38c8d5ed-2665-47ca-a462-9e164d68ada3",
+      "title": "Glendale Dressing Room",
+      "tags": "Closet / Smoked glass / Oak / Integrated lighting",
+      "location": "Glendale",
+      "cover": "69b84757-11ba-48d7-bb43-b5763116169d.jpg",
+      "gallery": []
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "48c8d93a-7d81-4fa4-8d62-3ae0a1ccd2ff",
+      "quote": "They understood how we cook, how we host, and how the light moves through the house. The kitchen feels like it was always meant to be there.",
+      "author": "Homeowner"
+    },
+    {
+      "id": "d672bab1-a36e-4c9d-affc-fd6047b24cc8",
+      "quote": "Every selection was explained and every detail was resolved before installation. The process was calm from start to finish.",
+      "author": "Homeowner"
+    },
+    {
+      "id": "044bdb3c-d53b-422f-b8af-86aa3146387e",
+      "quote": "The entire experience felt thoughtful from the first conversation to the final detail.",
+      "author": "Homeowner"
+    },
+    {
+      "id": "dc1a5095-5e30-426b-8325-e4b177007749",
+      "quote": "Seeing the Dekton slabs in the showroom made the decision easy.",
+      "author": "Architect"
+    }
+  ],
   "categories": [
     {
       "id": "cabinets",
@@ -76,7 +168,7 @@
   ],
   "brands": [
     {
-      "id": "3872372c-2fa9-4a98-9c8d-913eb45f25ae",
+      "id": "fab65f28-421a-47e3-a5a2-e75fd5a0f08f",
       "name": "Miele",
       "categoryId": "appliances",
       "url": "https://www.mieleusa.com",
@@ -84,7 +176,7 @@
       "visible": true
     },
     {
-      "id": "8ee1f3b5-49a8-4ea8-a367-f6f77b910d8b",
+      "id": "6111b3d6-3cb1-420a-afbc-4735a6e4bc81",
       "name": "Gaggenau",
       "categoryId": "appliances",
       "url": "https://www.gaggenau.com/us",
@@ -92,7 +184,7 @@
       "visible": true
     },
     {
-      "id": "5983650c-a880-4c23-981c-2f0615334c80",
+      "id": "5fa56e8c-8895-4e23-97df-43b853827479",
       "name": "SMEG",
       "categoryId": "appliances",
       "url": "https://www.smegusa.com",
@@ -100,7 +192,7 @@
       "visible": true
     },
     {
-      "id": "5e30bc10-003b-49c0-b3cf-f4663d5ec688",
+      "id": "83d7b864-6e6f-4720-a16c-9141c643ad33",
       "name": "PITT",
       "categoryId": "appliances",
       "url": "https://www.pittcooking.com",
@@ -108,7 +200,7 @@
       "visible": true
     },
     {
-      "id": "b5b704df-ed0d-42f6-826e-5c4bd6506bb2",
+      "id": "24ce4da3-c2b2-4208-af44-e00cf3f32735",
       "name": "Invisacook",
       "categoryId": "appliances",
       "url": "https://invisacook.com",
@@ -116,7 +208,7 @@
       "visible": true
     },
     {
-      "id": "4c06d3d5-c82f-4328-a546-1e0d32614239",
+      "id": "ea0aeb19-6f42-48a3-9cd7-784d886c90d1",
       "name": "Fisher & Paykel",
       "categoryId": "appliances",
       "url": "https://www.fisherpaykel.com/us",
@@ -124,7 +216,7 @@
       "visible": true
     },
     {
-      "id": "90b21216-ff1c-4bfd-ab3b-c174de097a47",
+      "id": "9052e411-6d6a-4c45-b2f7-1134ff9e92eb",
       "name": "Graff",
       "categoryId": "plumbing-fixtures",
       "url": "https://www.graff-designs.com",
@@ -132,7 +224,7 @@
       "visible": true
     },
     {
-      "id": "53a43b62-de30-4e25-972a-36a7856a015b",
+      "id": "d8cca291-f43b-494c-a5b6-2b428a96d37b",
       "name": "Grohe",
       "categoryId": "plumbing-fixtures",
       "url": "https://www.grohe.us",
@@ -140,7 +232,7 @@
       "visible": true
     },
     {
-      "id": "02e2835e-a88f-4528-bdff-263ec0107b73",
+      "id": "52583ae3-1082-484a-9f80-809b3ec16b12",
       "name": "Hansgrohe",
       "categoryId": "plumbing-fixtures",
       "url": "https://www.hansgrohe-usa.com",
@@ -148,7 +240,7 @@
       "visible": true
     },
     {
-      "id": "bb7deff4-ac29-443b-84bd-85a01318c066",
+      "id": "cbf205b7-53c6-4a94-a959-53f7a9fda422",
       "name": "Ruvati",
       "categoryId": "plumbing-fixtures",
       "url": "https://www.ruvati.com",

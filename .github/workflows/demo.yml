@@ -31,8 +31,8 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
-      # The admin panel and upload proxy need a server, so they are not part of the demo.
-      - run: rm -rf src/app/admin src/app/uploads
+      # The admin panel, upload proxy and contact endpoint need a server, so they are not part of the demo.
+      - run: rm -rf src/app/admin src/app/uploads src/app/api
       - run: npx next build
         env:
           DEMO_EXPORT: "1"

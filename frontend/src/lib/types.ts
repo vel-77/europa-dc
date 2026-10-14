@@ -19,10 +19,43 @@ export type Brand = {
   visible: boolean;
 };
 
+export type Solution = {
+  id: string;
+  title: string;
+  description: string;
+  /** File name under /uploads, or null. */
+  image: string | null;
+};
+
+export type Project = {
+  id: string;
+  title: string;
+  /** Short descriptor line, e.g. "Kitchen / Dekton / Walnut". */
+  tags: string;
+  location: string;
+  cover: string | null;
+  gallery: string[];
+};
+
+export type Testimonial = {
+  id: string;
+  quote: string;
+  author: string;
+};
+
+export type Inquiry = {
+  id: string;
+  name: string;
+  email: string;
+  projectType: string;
+  message: string;
+  files: { stored: string; originalName: string }[];
+  createdAt: string;
+  read: boolean;
+};
+
 export type Settings = {
   siteName: string;
-  heroTitle: string;
-  heroText: string;
   address: string;
   mapUrl: string;
   phone: string;
@@ -52,9 +85,12 @@ export type InstagramStatus = {
 /** Lists arrive already in display order. */
 export type Site = {
   settings: Settings;
+  solutions: Solution[];
+  projects: Project[];
+  testimonials: Testimonial[];
   categories: Category[];
   brands: Brand[];
   posts: InstagramPost[];
 };
 
-export type AdminSite = Site & { instagram: InstagramStatus };
+export type AdminSite = Site & { instagram: InstagramStatus; inquiries: Inquiry[] };

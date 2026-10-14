@@ -25,7 +25,7 @@ export default async function BrandsPage({ searchParams }: PageProps<"/admin">) 
             <input name="name" required maxLength={80} />
           </label>
           <label>
-            Service
+            Category
             <select name="categoryId" required defaultValue="">
               <option value="" disabled>
                 Choose…
@@ -67,7 +67,7 @@ export default async function BrandsPage({ searchParams }: PageProps<"/admin">) 
                         <input name="name" required maxLength={80} defaultValue={brand.name} />
                       </label>
                       <label>
-                        Service
+                        Category
                         <select name="categoryId" defaultValue={brand.categoryId}>
                           {categoryOptions}
                         </select>

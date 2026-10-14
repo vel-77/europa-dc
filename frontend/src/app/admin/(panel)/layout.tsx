@@ -4,14 +4,19 @@ import { logout } from "../actions";
 
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
   // Redirects to the login page unless the backend accepts the session.
-  await getAdminSite();
+  const { inquiries } = await getAdminSite();
+  const unread = inquiries.filter((inquiry) => !inquiry.read).length;
   return (
     <>
       <header className="admin-bar">
         <strong>Europa DC admin</strong>
         <nav aria-label="Admin sections">
+          <Link href="/admin/inquiries">Inquiries{unread > 0 && <span className="admin-badge">{unread}</span>}</Link>
+          <Link href="/admin/projects">Projects</Link>
+          <Link href="/admin/solutions">Solutions</Link>
+          <Link href="/admin/testimonials">Testimonials</Link>
           <Link href="/admin">Brands</Link>
-          <Link href="/admin/services">Services</Link>
+          <Link href="/admin/services">Brand categories</Link>
           <Link href="/admin/instagram">Instagram</Link>
           <Link href="/admin/settings">Settings</Link>
         </nav>

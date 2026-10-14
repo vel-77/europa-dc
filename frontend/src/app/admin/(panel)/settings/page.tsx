@@ -11,22 +11,6 @@ export default async function SettingsPage({ searchParams }: PageProps<"/admin/s
       <Message searchParams={searchParams} />
       <form action={saveSettings} className="admin-form">
         <section className="admin-card">
-          <h2>Home page</h2>
-          <label>
-            Business name
-            <input name="siteName" required maxLength={80} defaultValue={settings.siteName} />
-          </label>
-          <label>
-            Headline
-            <input name="heroTitle" maxLength={120} defaultValue={settings.heroTitle} />
-          </label>
-          <label>
-            Introduction
-            <textarea name="heroText" rows={3} maxLength={400} defaultValue={settings.heroText} />
-          </label>
-        </section>
-
-        <section className="admin-card">
           <h2>Showroom and contact</h2>
           <label>
             Address

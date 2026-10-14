@@ -16,12 +16,6 @@ public class SiteSettings {
 	@Column(nullable = false, length = 80)
 	private String siteName;
 
-	@Column(nullable = false, length = 120)
-	private String heroTitle;
-
-	@Column(nullable = false, length = 400)
-	private String heroText;
-
 	@Column(nullable = false, length = 300)
 	private String address;
 
@@ -54,22 +48,6 @@ public class SiteSettings {
 
 	public void setSiteName(String siteName) {
 		this.siteName = siteName;
-	}
-
-	public String getHeroTitle() {
-		return heroTitle;
-	}
-
-	public void setHeroTitle(String heroTitle) {
-		this.heroTitle = heroTitle;
-	}
-
-	public String getHeroText() {
-		return heroText;
-	}
-
-	public void setHeroText(String heroText) {
-		this.heroText = heroText;
 	}
 
 	public String getAddress() {

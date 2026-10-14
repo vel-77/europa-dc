@@ -1,1 +1,3 @@
 .playwright-mcp/
+# Design hand-off: 80 MB of mock-ups, backups and video. Kept locally only.
+/design/

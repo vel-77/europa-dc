@@ -8,9 +8,15 @@ import java.util.Locale;
 import java.util.UUID;
 
 import com.europadc.backend.ApiException;
+import com.europadc.backend.FileStorage;
+import com.europadc.backend.inquiry.InquiryService;
+import com.europadc.backend.inquiry.InquiryService.InquiryDto;
 import com.europadc.backend.instagram.InstagramService;
 import com.europadc.backend.instagram.InstagramService.PostDto;
 import com.europadc.backend.instagram.InstagramService.StatusDto;
+import com.europadc.backend.site.ContentService.ProjectDto;
+import com.europadc.backend.site.ContentService.SolutionDto;
+import com.europadc.backend.site.ContentService.TestimonialDto;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,8 +29,8 @@ public class SiteService {
 
 	static final long SETTINGS_ID = 1L;
 
-	public record SettingsDto(String siteName, String heroTitle, String heroText, String address, String mapUrl,
-			String phone, String email, String hours, String instagramHandle) {
+	public record SettingsDto(String siteName, String address, String mapUrl, String phone, String email, String hours,
+			String instagramHandle) {
 	}
 
 	public record CategoryDto(String id, String name, String blurb, List<String> items) {
@@ -34,12 +40,14 @@ public class SiteService {
 	}
 
 	/** What the public home page needs. Hidden brands are left out. */
-	public record SiteDto(SettingsDto settings, List<CategoryDto> categories, List<BrandDto> brands, List<PostDto> posts) {
+	public record SiteDto(SettingsDto settings, List<SolutionDto> solutions, List<ProjectDto> projects,
+			List<TestimonialDto> testimonials, List<CategoryDto> categories, List<BrandDto> brands, List<PostDto> posts) {
 	}
 
-	/** What the admin panel needs: everything, plus the state of the Instagram connection. */
-	public record AdminSiteDto(SettingsDto settings, List<CategoryDto> categories, List<BrandDto> brands,
-			List<PostDto> posts, StatusDto instagram) {
+	/** What the admin panel needs: everything, plus Instagram state and inquiries. */
+	public record AdminSiteDto(SettingsDto settings, List<SolutionDto> solutions, List<ProjectDto> projects,
+			List<TestimonialDto> testimonials, List<CategoryDto> categories, List<BrandDto> brands, List<PostDto> posts,
+			StatusDto instagram, List<InquiryDto> inquiries) {
 	}
 
 	public record CategoryRequest(String name, String blurb, List<String> items) {
@@ -48,16 +56,20 @@ public class SiteService {
 	private final SiteSettingsRepository settings;
 	private final CategoryRepository categories;
 	private final BrandRepository brands;
-	private final LogoStorage logos;
+	private final FileStorage files;
+	private final ContentService content;
 	private final InstagramService instagram;
+	private final InquiryService inquiries;
 
 	SiteService(SiteSettingsRepository settings, CategoryRepository categories, BrandRepository brands,
-			LogoStorage logos, InstagramService instagram) {
+			FileStorage files, ContentService content, InstagramService instagram, InquiryService inquiries) {
 		this.settings = settings;
 		this.categories = categories;
 		this.brands = brands;
-		this.logos = logos;
+		this.files = files;
+		this.content = content;
 		this.instagram = instagram;
+		this.inquiries = inquiries;
 	}
 
 	/* ---------- Reading ---------- */
@@ -65,18 +77,20 @@ public class SiteService {
 	@Transactional(readOnly = true)
 	public SiteDto publicSite() {
 		List<BrandDto> visible = brandDtos().stream().filter(BrandDto::visible).toList();
-		return new SiteDto(settingsDto(), categoryDtos(), visible, instagram.posts());
+		return new SiteDto(settingsDto(), content.solutions(), content.projects(), content.testimonials(), categoryDtos(),
+				visible, instagram.posts());
 	}
 
 	@Transactional(readOnly = true)
 	public AdminSiteDto adminSite() {
-		return new AdminSiteDto(settingsDto(), categoryDtos(), brandDtos(), instagram.posts(), instagram.status());
+		return new AdminSiteDto(settingsDto(), content.solutions(), content.projects(), content.testimonials(),
+				categoryDtos(), brandDtos(), instagram.posts(), instagram.status(), inquiries.all());
 	}
 
 	private SettingsDto settingsDto() {
 		SiteSettings row = settings.findById(SETTINGS_ID).orElseThrow();
-		return new SettingsDto(row.getSiteName(), row.getHeroTitle(), row.getHeroText(), row.getAddress(),
-				row.getMapUrl(), row.getPhone(), row.getEmail(), row.getHours(), row.getInstagramHandle());
+		return new SettingsDto(row.getSiteName(), row.getAddress(), row.getMapUrl(), row.getPhone(), row.getEmail(),
+				row.getHours(), row.getInstagramHandle());
 	}
 
 	private List<CategoryDto> categoryDtos() {
@@ -103,7 +117,7 @@ public class SiteService {
 		brand.setSortOrder(brands.findAllByOrderBySortOrderAsc().stream().mapToInt(Brand::getSortOrder).max().orElse(-1) + 1);
 		applyBrandFields(brand, name, categoryId, url);
 		if (hasFile(logo)) {
-			brand.setLogo(logos.store(logo));
+			brand.setLogo(storeLogo(logo));
 		}
 		brands.save(brand);
 	}
@@ -116,8 +130,8 @@ public class SiteService {
 		brand.setVisible(visible);
 		if (hasFile(logo) || removeLogo) {
 			String previous = brand.getLogo();
-			brand.setLogo(hasFile(logo) ? logos.store(logo) : null);
-			logos.delete(previous);
+			brand.setLogo(hasFile(logo) ? storeLogo(logo) : null);
+			files.deleteUpload(previous);
 		}
 		brands.save(brand);
 	}
@@ -126,7 +140,7 @@ public class SiteService {
 	public void deleteBrand(String id) {
 		brands.findById(id).ifPresent(brand -> {
 			brands.delete(brand);
-			logos.delete(brand.getLogo());
+			files.deleteUpload(brand.getLogo());
 		});
 	}
 
@@ -229,8 +243,6 @@ public class SiteService {
 		if (!siteName.isEmpty()) {
 			row.setSiteName(siteName);
 		}
-		row.setHeroTitle(clean(request.heroTitle(), 120));
-		row.setHeroText(clean(request.heroText(), 400));
 		row.setAddress(clean(request.address(), 300));
 		row.setMapUrl(webUrl(clean(request.mapUrl(), 1000), "The map link is not valid."));
 		row.setPhone(clean(request.phone(), 40));
@@ -241,6 +253,10 @@ public class SiteService {
 	}
 
 	/* ---------- Helpers ---------- */
+
+	private String storeLogo(MultipartFile logo) {
+		return files.storeUpload(logo, FileStorage.LOGO_TYPES, FileStorage.MB, "Logos must be smaller than 1 MB.");
+	}
 
 	private static boolean hasFile(MultipartFile file) {
 		return file != null && !file.isEmpty();

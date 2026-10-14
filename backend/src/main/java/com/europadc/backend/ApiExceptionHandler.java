@@ -19,7 +19,7 @@ public class ApiExceptionHandler {
 
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	ResponseEntity<Map<String, String>> handleTooLarge() {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Logos must be smaller than 1 MB."));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "The upload is too large."));
 	}
 
 }

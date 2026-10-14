@@ -1,6 +1,9 @@
 package com.europadc.backend.site;
 
+import java.util.List;
+
 import com.europadc.backend.instagram.InstagramService;
+import com.europadc.backend.site.ContentService.TestimonialRequest;
 import com.europadc.backend.site.SiteService.AdminSiteDto;
 import com.europadc.backend.site.SiteService.CategoryRequest;
 import com.europadc.backend.site.SiteService.SettingsDto;
@@ -33,10 +36,12 @@ class AdminController {
 	}
 
 	private final SiteService site;
+	private final ContentService content;
 	private final InstagramService instagram;
 
-	AdminController(SiteService site, InstagramService instagram) {
+	AdminController(SiteService site, ContentService content, InstagramService instagram) {
 		this.site = site;
+		this.content = content;
 		this.instagram = instagram;
 	}
 
@@ -45,7 +50,7 @@ class AdminController {
 		return site.adminSite();
 	}
 
-	/* ---------- Brands (sent as multipart forms because of the logo file) ---------- */
+	/* ---------- Brands (multipart forms because of the logo file) ---------- */
 
 	@PostMapping("/brands")
 	void createBrand(@RequestParam String name, @RequestParam String categoryId,
@@ -71,7 +76,7 @@ class AdminController {
 		site.moveBrand(id, request.up());
 	}
 
-	/* ---------- Services ---------- */
+	/* ---------- Brand categories ---------- */
 
 	@PostMapping("/categories")
 	void createCategory(@RequestBody CategoryRequest request) {
@@ -91,6 +96,68 @@ class AdminController {
 	@PostMapping("/categories/{id}/move")
 	void moveCategory(@PathVariable String id, @RequestBody MoveRequest request) {
 		site.moveCategory(id, request.up());
+	}
+
+	/* ---------- Solutions ---------- */
+
+	@PostMapping({ "/solutions", "/solutions/{id}" })
+	void saveSolution(@PathVariable(required = false) String id, @RequestParam String title,
+			@RequestParam(defaultValue = "") String description, @RequestParam(defaultValue = "false") boolean removeImage,
+			@RequestParam(required = false) MultipartFile image) {
+		content.saveSolution(id == null ? "" : id, title, description, removeImage, image);
+	}
+
+	@DeleteMapping("/solutions/{id}")
+	void deleteSolution(@PathVariable String id) {
+		content.deleteSolution(id);
+	}
+
+	@PostMapping("/solutions/{id}/move")
+	void moveSolution(@PathVariable String id, @RequestBody MoveRequest request) {
+		content.moveSolution(id, request.up());
+	}
+
+	/* ---------- Projects ---------- */
+
+	@PostMapping({ "/projects", "/projects/{id}" })
+	void saveProject(@PathVariable(required = false) String id, @RequestParam String title,
+			@RequestParam(defaultValue = "") String tags, @RequestParam(defaultValue = "") String location,
+			@RequestParam(defaultValue = "false") boolean removeCover, @RequestParam(required = false) MultipartFile cover,
+			@RequestParam(required = false) List<MultipartFile> photos,
+			@RequestParam(required = false) List<String> removePhotos) {
+		content.saveProject(id == null ? "" : id, title, tags, location, removeCover, cover, photos, removePhotos);
+	}
+
+	@DeleteMapping("/projects/{id}")
+	void deleteProject(@PathVariable String id) {
+		content.deleteProject(id);
+	}
+
+	@PostMapping("/projects/{id}/move")
+	void moveProject(@PathVariable String id, @RequestBody MoveRequest request) {
+		content.moveProject(id, request.up());
+	}
+
+	/* ---------- Testimonials ---------- */
+
+	@PostMapping("/testimonials")
+	void createTestimonial(@RequestBody TestimonialRequest request) {
+		content.saveTestimonial("", request);
+	}
+
+	@PutMapping("/testimonials/{id}")
+	void updateTestimonial(@PathVariable String id, @RequestBody TestimonialRequest request) {
+		content.saveTestimonial(id, request);
+	}
+
+	@DeleteMapping("/testimonials/{id}")
+	void deleteTestimonial(@PathVariable String id) {
+		content.deleteTestimonial(id);
+	}
+
+	@PostMapping("/testimonials/{id}/move")
+	void moveTestimonial(@PathVariable String id, @RequestBody MoveRequest request) {
+		content.moveTestimonial(id, request.up());
 	}
 
 	/* ---------- Settings and Instagram ---------- */

@@ -8,10 +8,8 @@ export default async function ServicesPage({ searchParams }: PageProps<"/admin/s
 
   return (
     <>
-      <h1>Services</h1>
-      <p className="admin-hint">
-        The list of what Europa DC offers. Brands are grouped under these on the home page.
-      </p>
+      <h1>Brand categories</h1>
+      <p className="admin-hint">Brands are grouped under these in the “Brands &amp; materials” section of the home page.</p>
       <Message searchParams={searchParams} />
 
       <section className="admin-card">
@@ -41,11 +39,11 @@ export default async function ServicesPage({ searchParams }: PageProps<"/admin/s
                       What it includes, one per line
                       <textarea name="items" rows={4} defaultValue={category.items.join("\n")} />
                     </label>
-                    <button type="submit">Save service</button>
+                    <button type="submit">Save category</button>
                   </form>
                   <form action={deleteCategory}>
                     <input type="hidden" name="id" value={category.id} />
-                    <ConfirmButton label="Remove service" confirmLabel={`Remove ${category.name}`} />
+                    <ConfirmButton label="Remove category" confirmLabel={`Remove ${category.name}`} />
                   </form>
                 </details>
                 <form action={moveCategory} className="admin-move">
@@ -70,7 +68,7 @@ export default async function ServicesPage({ searchParams }: PageProps<"/admin/s
       </section>
 
       <section className="admin-card">
-        <h2>Add a service</h2>
+        <h2>Add a category</h2>
         <form action={saveCategory} className="admin-form">
           <label>
             Name
@@ -84,7 +82,7 @@ export default async function ServicesPage({ searchParams }: PageProps<"/admin/s
             What it includes, one per line
             <textarea name="items" rows={3} />
           </label>
-          <button type="submit">Add service</button>
+          <button type="submit">Add category</button>
         </form>
       </section>
     </>

@@ -2,6 +2,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { connection } from "next/server";
+import { asset } from "./asset";
 import demoSite from "./demo-site.json";
 import type { AdminSite, Site } from "./types";
 
@@ -10,6 +11,14 @@ import type { AdminSite, Site } from "./types";
 export const BACKEND_URL = (process.env.BACKEND_URL ?? "http://localhost:8090").replace(/\/$/, "");
 
 const SESSION_COOKIE = "europa_admin";
+
+const DEMO = Boolean(process.env.DEMO_EXPORT);
+
+/** Public address of an uploaded image. The static demo serves copies from /demo instead. */
+export function uploadUrl(name: string | null | undefined) {
+  if (!name) return null;
+  return asset(`${DEMO ? "/demo" : "/uploads"}/${encodeURIComponent(name)}`);
+}
 
 /** An error from the backend whose message is meant to be shown to the admin. */
 export class ApiError extends Error {}
@@ -32,7 +41,7 @@ async function errorMessage(response: Response) {
 /** Content for the public home page. */
 export async function getSite(): Promise<Site> {
   // The static demo on GitHub Pages has no backend, so it ships a snapshot of the content.
-  if (process.env.DEMO_EXPORT) return demoSite;
+  if (DEMO) return demoSite;
   // Render on every request, so admin changes and new Instagram posts show up at once.
   await connection();
   const response = await request("/api/site");

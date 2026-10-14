@@ -2,10 +2,13 @@
 
 Website and admin panel for Europa Design Center (Glendale, CA).
 
-- `backend/` is a Java (Spring Boot) service. It owns all data: brands, services, settings,
-  uploaded logos, admin login and the Instagram feed.
+- `backend/` is a Java (Spring Boot) service. It owns all data: solutions, projects,
+  testimonials, brands, settings, uploaded images, contact-form inquiries, admin login and
+  the Instagram feed.
 - `frontend/` is a Next.js app. It renders the public home page and the admin panel, and
   gets everything from the backend's JSON API.
+- `design/` (not in git) is the design hand-off the site is built from; the page is
+  `design/Europa DC/Europa Landing - Hero Section 4.html`.
 
 ## Run it
 
@@ -34,14 +37,18 @@ backend listens on localhost unless `SERVER_ADDRESS` is set.
 
 | What | Where |
 | --- | --- |
-| Home page | `frontend/src/app/page.tsx`, styles in `frontend/src/app/globals.css` |
-| Scroll-driven kitchen sketch | `frontend/src/components/kitchen/` (`geometry.ts` describes the drawing, `KitchenBuild.tsx` ties it to scrolling) |
+| Home page | `frontend/src/app/page.tsx` (static sections), `frontend/src/components/site/` (sections with behaviour), styles and design tokens in `frontend/src/app/globals.css` |
+| Hero video scrub | `frontend/src/components/site/Hero.tsx`; frames in `frontend/public/hero/` (cut from the design's video with `ffmpeg -vf "fps=6,scale=1280:-2"`) |
+| Contact form | `frontend/src/components/site/ContactForm.tsx` → `frontend/src/app/api/inquiry/route.ts` → backend |
 | Admin panel pages | `frontend/src/app/admin/`; every change goes through `actions.ts` to the backend |
 | Backend API client | `frontend/src/lib/api.ts` |
-| API endpoints | `backend/.../site/PublicController.java`, `AdminController.java`, `auth/LoginController.java` |
-| Brands, services, settings | `backend/.../site/SiteService.java` |
+| API endpoints | `backend/.../site/PublicController.java`, `AdminController.java`, `inquiry/InquiryController.java`, `auth/LoginController.java` |
+| Solutions, projects, testimonials | `backend/.../site/ContentService.java` |
+| Brands, categories, settings | `backend/.../site/SiteService.java` |
+| Inquiries | `backend/.../inquiry/InquiryService.java` |
 | Instagram feed | `backend/.../instagram/InstagramService.java` |
-| First-run content | `backend/.../site/SiteSeeder.java` |
+| First-run content | `backend/.../site/SiteSeeder.java` (projects and testimonials are sample content) |
+| Static demo snapshot | `frontend/scripts-snapshot.mjs` writes `src/lib/demo-site.json` and `public/demo/` from a running backend |
 
 ## API
 
@@ -49,11 +56,16 @@ backend listens on localhost unless `SERVER_ADDRESS` is set.
 | --- | --- |
 | `GET /api/site` | Everything the home page shows |
 | `GET /uploads/{name}` | An uploaded brand logo |
+| `POST /api/inquiries` | Contact form (multipart, up to five `files`) |
 | `POST /api/admin/login` | Password in, session token out |
 | `GET /api/admin/site` | Everything the admin panel shows |
 | `POST /api/admin/brands`, `POST /api/admin/brands/{id}` | Add or update a brand (multipart form, optional `logo` file) |
 | `DELETE /api/admin/brands/{id}`, `POST /api/admin/brands/{id}/move` | Remove or reorder a brand |
-| `POST`, `PUT`, `DELETE /api/admin/categories[/{id}]`, `POST .../move` | Manage services |
+| `POST`, `PUT`, `DELETE /api/admin/categories[/{id}]`, `POST .../move` | Manage brand categories |
+| `POST /api/admin/solutions[/{id}]`, `DELETE`, `POST .../move` | Manage solutions (multipart, optional `image`) |
+| `POST /api/admin/projects[/{id}]`, `DELETE`, `POST .../move` | Manage projects (multipart: `cover`, `photos`, `removePhotos`) |
+| `POST`, `PUT`, `DELETE /api/admin/testimonials[/{id}]`, `POST .../move` | Manage testimonials |
+| `POST /api/admin/inquiries/{id}/read`, `DELETE .../{id}`, `GET .../{id}/files/{name}` | Read, delete and download inquiries |
 | `PUT /api/admin/settings` | Site text and contact details |
 | `PUT`, `DELETE /api/admin/instagram`, `POST /api/admin/instagram/refresh` | Connect, disconnect, fetch now |
 
@@ -62,9 +74,16 @@ httpOnly cookie and adds the header itself, so the browser never calls the backe
 
 ## Data
 
-The backend stores its database (embedded H2) and uploaded logos in `backend/data/`.
+The backend stores its database (embedded H2), uploaded images and inquiry attachments in
+`backend/data/`.
 Back that folder up. `DATA_DIR` moves it; to use another database, set
 `SPRING_DATASOURCE_URL` and add its JDBC driver to `pom.xml`.
+
+## Contact form
+
+Inquiries are stored by the backend and listed under Inquiries in the admin panel, with a
+badge for unread ones. Nothing is emailed. Attachments (images or PDF, up to five of 10 MB)
+are kept in `backend/data/attachments/` and can only be opened from the admin panel.
 
 ## Instagram
 

@@ -2,6 +2,7 @@ package com.europadc.backend.site;
 
 import java.time.Duration;
 
+import com.europadc.backend.FileStorage;
 import com.europadc.backend.site.SiteService.SiteDto;
 
 import org.springframework.core.io.Resource;
@@ -16,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 class PublicController {
 
 	private final SiteService site;
-	private final LogoStorage logos;
+	private final FileStorage files;
 
-	PublicController(SiteService site, LogoStorage logos) {
+	PublicController(SiteService site, FileStorage files) {
 		this.site = site;
-		this.logos = logos;
+		this.files = files;
 	}
 
 	@GetMapping("/api/site")
@@ -30,8 +31,8 @@ class PublicController {
 
 	@GetMapping("/uploads/{name}")
 	ResponseEntity<Resource> upload(@PathVariable String name) {
-		String contentType = logos.contentType(name);
-		Resource file = contentType == null ? null : logos.load(name);
+		String contentType = FileStorage.contentType(name);
+		Resource file = contentType == null ? null : files.loadUpload(name);
 		if (file == null) {
 			return ResponseEntity.notFound().build();
 		}
