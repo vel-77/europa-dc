@@ -1,3 +1,5 @@
 .playwright-mcp/
 # Design hand-off: 80 MB of mock-ups, backups and video. Kept locally only.
 /design/
+# Original high-resolution photos from the designer (web versions are in the app).
+/fixtures/

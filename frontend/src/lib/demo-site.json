@@ -13,62 +13,46 @@
       "id": "52599657-cacc-4817-9b6a-432dd766bd13",
       "title": "Kitchens",
       "description": "Custom kitchen design and cabinetry",
-      "image": "e0542c74-026b-4385-b0af-2eb690db46f7.webp"
+      "image": "1ea7b3d9-2a3d-4a92-895f-99747ae66c31.webp"
     },
     {
       "id": "f43d9d6e-1074-4340-b7b8-e395575401f7",
       "title": "Bathrooms",
       "description": "Vanities, fixtures, surfaces, and details",
-      "image": "62823375-6ac0-4c66-8095-7b79e5ec1b02.webp"
+      "image": "a07573bd-ca03-452a-a887-781ac9ee3227.webp"
     },
     {
       "id": "54af2c1b-9c08-469c-8ba0-4d476e4409b0",
       "title": "Closets",
       "description": "Storage solutions designed around your lifestyle",
-      "image": "48bb626f-4b91-4dee-8b27-c8d0e065139b.webp"
+      "image": "fdcfb714-8b76-4d40-8944-8df6289505a0.webp"
     },
     {
       "id": "74528910-5e61-4926-b2e6-b531b0d7042c",
       "title": "Outdoor",
       "description": "Outdoor kitchens and architectural solutions",
-      "image": "39e878c5-5932-4b1a-a57b-d7c8bcefcc96.webp"
+      "image": "ff18d82d-a66c-4e37-860b-b2eb4a2a266c.webp"
     },
     {
       "id": "6393269b-ec95-4b6f-a8d8-f1f06a5f40a1",
       "title": "Surfaces",
       "description": "Premium stone and architectural surfaces",
-      "image": "3590a51f-e09c-483b-9c18-abd249ab5b46.webp"
+      "image": "a2c5d848-9eff-49a9-9088-7d6f0c740cd3.webp"
     },
     {
       "id": "2cba1da8-76fa-4bb4-ba9f-fe8dd7e8edf3",
       "title": "Details",
       "description": "Fixtures, glass, wall panels, hardware, and finishing elements",
-      "image": "19d08080-0c24-4969-9428-7fe40e13fc86.webp"
+      "image": "ace453b9-3663-43bd-accf-694d766a660c.webp"
     }
   ],
   "projects": [
-    {
-      "id": "c1425afa-fcf7-4e29-a366-3bafbc4478c6",
-      "title": "Hillside Residence",
-      "tags": "Kitchen / Dekton / Walnut / Bronze",
-      "location": "La Cañada Flintridge",
-      "cover": "379d1f94-f6e3-421b-9b5f-e895bfd7ff66.webp",
-      "gallery": []
-    },
-    {
-      "id": "5b006b03-01c4-46ec-8a52-4375f5582649",
-      "title": "Silver Lake Primary Bath",
-      "tags": "Bathroom / Stone vanity / Brushed nickel",
-      "location": "Los Angeles",
-      "cover": "264db345-5f35-42a0-9a0a-6afc6b73e4b6.webp",
-      "gallery": []
-    },
     {
       "id": "78ea3b01-15e6-46c8-a774-430f02b7533c",
       "title": "Pasadena Modern",
       "tags": "Complete interior / Kitchen / Bath / Closets / Wall panels",
       "location": "Pasadena",
-      "cover": "1ce07092-59ce-491d-954b-c816836dc790.webp",
+      "cover": "ed7d3ebf-1b7c-4260-811d-21b901eda480.webp",
       "gallery": []
     },
     {
@@ -76,7 +60,15 @@
       "title": "Glendale Dressing Room",
       "tags": "Closet / Smoked glass / Oak / Integrated lighting",
       "location": "Glendale",
-      "cover": "2c45572f-4883-47b7-b9d4-275a231ef9be.webp",
+      "cover": "1f8fae36-77dc-4a79-a39b-334cfd1a867d.webp",
+      "gallery": []
+    },
+    {
+      "id": "5b006b03-01c4-46ec-8a52-4375f5582649",
+      "title": "Silver Lake Primary Bath",
+      "tags": "Bathroom / Stone vanity / Brushed brass",
+      "location": "Los Angeles",
+      "cover": "1cc163f7-2997-476c-a48a-c0b0fdbb662b.webp",
       "gallery": []
     }
   ],

@@ -67,10 +67,9 @@ class SiteSeeder implements ApplicationRunner {
 		solution("Surfaces", "Premium stone and architectural surfaces", "sol-surfaces");
 		solution("Details", "Fixtures, glass, wall panels, hardware, and finishing elements", "sol-details");
 
-		project("Hillside Residence", "Kitchen / Dekton / Walnut / Bronze", "La Cañada Flintridge", "proj-1");
-		project("Silver Lake Primary Bath", "Bathroom / Stone vanity / Brushed nickel", "Los Angeles", "proj-2");
-		project("Pasadena Modern", "Complete interior / Kitchen / Bath / Closets / Wall panels", "Pasadena", "proj-3");
-		project("Glendale Dressing Room", "Closet / Smoked glass / Oak / Integrated lighting", "Glendale", "proj-4");
+		project("Pasadena Modern", "Complete interior / Kitchen / Bath / Closets / Wall panels", "Pasadena", "proj-1");
+		project("Glendale Dressing Room", "Closet / Smoked glass / Oak / Integrated lighting", "Glendale", "proj-2");
+		project("Silver Lake Primary Bath", "Bathroom / Stone vanity / Brushed brass", "Los Angeles", "proj-3");
 
 		testimonial("They understood how we cook, how we host, and how the light moves through the house. The kitchen feels like it was always meant to be there.", "Homeowner");
 		testimonial("Every selection was explained and every detail was resolved before installation. The process was calm from start to finish.", "Homeowner");

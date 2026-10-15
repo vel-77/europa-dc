@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Split } from "./Split";
 
 export type SolutionView = { id: string; title: string; description: string; image: string | null };
@@ -10,6 +10,25 @@ const pad = (n: number) => String(n + 1).padStart(2, "0");
 export function Solutions({ solutions }: { solutions: SolutionView[] }) {
   const [active, setActive] = useState(0);
   const [previous, setPrevious] = useState<number | null>(null);
+  // Fetch every photo once the section is close, so hovering a row never shows an empty frame.
+  const [warm, setWarm] = useState(false);
+  const section = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const element = section.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setWarm(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "800px 0px" },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   const select = (index: number) => {
     if (index === active) return;
@@ -18,7 +37,7 @@ export function Solutions({ solutions }: { solutions: SolutionView[] }) {
   };
 
   return (
-    <section id="solutions" className="py-section">
+    <section id="solutions" ref={section} className="py-section">
       <div className="shell">
         <div className="grid-12 gap-y-8">
           <p className="eyebrow text-taupe-ink col-span-12 -mb-3 lg:-mb-5 reveal">Solutions</p>
@@ -40,7 +59,7 @@ export function Solutions({ solutions }: { solutions: SolutionView[] }) {
                     src={solution.image}
                     alt=""
                     className={`sol-img ${index === active ? "on" : index === previous ? "prev" : ""}`}
-                    loading={index === 0 ? "eager" : "lazy"}
+                    loading={warm || index === 0 ? "eager" : "lazy"}
                   />
                 ) : null,
               )}

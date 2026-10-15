@@ -55,9 +55,9 @@ export default async function Home() {
             <div className="sticky top-0 h-[100svh] overflow-hidden">
               <div
                 className="absolute top-0 bottom-0 right-0 left-[calc(50%+2rem)] bg-cover bg-[position:78%_50%] bg-no-repeat"
-                style={{ backgroundImage: `url(${asset("/img/about-interior.jpg")})` }}
+                style={{ backgroundImage: `url(${asset("/img/about-interior.webp")})` }}
                 role="img"
-                aria-label="Kitchen interior with a black stone island and warm under-cabinet lighting"
+                aria-label="Kitchen with sage-green cabinetry, a blue stone backsplash and brass pendant lights"
               />
               <div className="shell h-full grid-12">
                 <div className="col-span-5 grid h-full">
@@ -98,9 +98,9 @@ export default async function Home() {
             </div>
             <div
               className="mt-10 h-[72svh] w-full bg-cover bg-[position:78%_50%] bg-no-repeat"
-              style={{ backgroundImage: `url(${asset("/img/about-interior.jpg")})` }}
+              style={{ backgroundImage: `url(${asset("/img/about-interior.webp")})` }}
               role="img"
-              aria-label="Kitchen interior with a black stone island and warm under-cabinet lighting"
+              aria-label="Kitchen with sage-green cabinetry, a blue stone backsplash and brass pendant lights"
             />
           </div>
           <div className="bg-charcoal text-ivory">
@@ -290,7 +290,7 @@ export default async function Home() {
         {/* Showroom */}
         <section id="showroom" className="relative">
           <div id="sr-frame" className="frame aspect-[5/3] lg:aspect-auto lg:h-[100svh]">
-            <img src={asset("/img/showroom.jpg")} alt="The Europa DC showroom kitchen" loading="lazy" />
+            <img src={asset("/img/showroom.webp")} alt="The Europa DC showroom kitchen" loading="lazy" />
           </div>
           <div className="shell relative -mt-10 md:-mt-40 lg:-mt-72 pointer-events-none">
             <div className="grid-12">
