@@ -23,7 +23,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${manrope.variable}`}>
+    // data-scroll-behavior: the page scrolls smoothly to in-page links, but Next
+    // turns that off while changing pages so a new page opens at the top.
+    <html lang="en" className={`${cormorant.variable} ${manrope.variable}`} data-scroll-behavior="smooth">
       <body>{children}</body>
     </html>
   );

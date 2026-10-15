@@ -11,8 +11,10 @@ const nextConfig: NextConfig = {
   ...(demo ? { output: "export" as const, basePath, trailingSlash: true } : {}),
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
   experimental: {
-    // Room for a 1 MB brand logo plus the rest of the form.
-    serverActions: { bodySizeLimit: "2mb" },
+    // Admin uploads go through server actions. Allow a little more than the
+    // backend's own 55 MB request limit, so oversized uploads get the
+    // backend's readable error instead of a framework error page.
+    serverActions: { bodySizeLimit: "60mb" },
   },
 };
 

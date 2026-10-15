@@ -2,6 +2,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { connection } from "next/server";
+import { cache } from "react";
 import { asset } from "./asset";
 import demoCatalog from "./demo-catalog.json";
 import demoSite from "./demo-site.json";
@@ -39,8 +40,11 @@ async function errorMessage(response: Response) {
   return typeof body?.message === "string" ? body.message : `The backend returned status ${response.status}.`;
 }
 
-/** Content for the public home page. */
-export async function getSite(): Promise<Site> {
+/**
+ * Content for the public pages. Wrapped in React's cache so the metadata and
+ * the page of one request share a single call to the backend.
+ */
+export const getSite = cache(async (): Promise<Site> => {
   // The static demo on GitHub Pages has no backend, so it ships a snapshot of the content.
   if (DEMO) return demoSite;
   // Render on every request, so admin changes and new Instagram posts show up at once.
@@ -48,16 +52,16 @@ export async function getSite(): Promise<Site> {
   const response = await request("/api/site");
   if (!response.ok) throw new Error(await errorMessage(response));
   return response.json();
-}
+});
 
 /** Every catalog item, in display order within its room. */
-export async function getCatalog(): Promise<CatalogItem[]> {
+export const getCatalog = cache(async (): Promise<CatalogItem[]> => {
   if (DEMO) return demoCatalog.items;
   await connection();
   const response = await request("/api/catalog");
   if (!response.ok) throw new Error(await errorMessage(response));
   return ((await response.json()) as { items: CatalogItem[] }).items;
-}
+});
 
 /* ---------- Admin session ---------- */
 

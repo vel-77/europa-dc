@@ -82,12 +82,7 @@ class SiteSeeder implements ApplicationRunner {
 	private void addRoomAddressesAndCatalog() {
 		for (Solution room : solutions.findAllByOrderBySortOrderAsc()) {
 			if (room.getSlug() == null || room.getSlug().isBlank()) {
-				String base = ContentService.slugify(room.getTitle());
-				String slug = base.isEmpty() ? "room" : base;
-				for (int number = 2; slugInUse(slug); number += 1) {
-					slug = base + "-" + number;
-				}
-				room.setSlug(slug);
+				room.setSlug(ContentService.uniqueSlug(room.getTitle(), this::slugInUse));
 			}
 			if (room.getIntro() == null) {
 				room.setIntro(INTROS.getOrDefault(room.getSlug(), ""));

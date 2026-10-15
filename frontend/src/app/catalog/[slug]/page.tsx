@@ -40,10 +40,11 @@ export default async function RoomCatalogPage({ params }: PageProps<"/catalog/[s
 
   return (
     <>
-      {/* Keyed by room so switching rooms replays the reveal animations for the new content. */}
-      <ScrollEffects key={room.slug} />
+      {/* No keys needed: Next remounts the page when the room in the URL changes,
+          so the reveal animations replay for the new room. */}
+      <ScrollEffects />
       <Nav />
-      <main key={room.slug}>
+      <main>
         <RoomSwitcher rooms={rooms} current={room.slug} />
         <section className="pt-12 lg:pt-20 pb-section">
           <div className="shell">

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import com.europadc.backend.ApiException;
 import com.europadc.backend.FileStorage;
@@ -106,23 +107,42 @@ public class ContentService {
 	 * for clashes. Left empty: made from the title, numbered if already taken.
 	 */
 	private String roomSlug(Solution room, String requested) {
-		boolean typed = !requested.isEmpty();
-		String base = slugify(typed ? requested : room.getTitle());
-		if (base.isEmpty()) {
+		Predicate<String> taken = slug -> solutions.findAll().stream()
+			.anyMatch(other -> slug.equals(other.getSlug()) && !other.getId().equals(room.getId()));
+		if (requested.isEmpty()) {
+			return uniqueSlug(room.getTitle(), taken);
+		}
+		String slug = slugify(requested);
+		if (slug.isEmpty()) {
 			throw ApiException.badRequest("The address can only use letters, numbers and dashes.");
 		}
+		if (taken.test(slug)) {
+			throw ApiException.badRequest("Another room already uses the address /catalog/" + slug + ".");
+		}
+		return slug;
+	}
+
+	/** Addresses are stored in 80 characters; this leaves room for a "-99" suffix. */
+	private static final int SLUG_BASE_LIMIT = 76;
+
+	/**
+	 * An unused address made from free text, numbered "-2", "-3"... if taken.
+	 * Text without Latin letters or digits (an Armenian title, say) becomes
+	 * "room", so a room can always be saved; the admin can type a better one.
+	 */
+	static String uniqueSlug(String text, Predicate<String> taken) {
+		String base = slugify(text);
+		if (base.length() > SLUG_BASE_LIMIT) {
+			base = base.substring(0, SLUG_BASE_LIMIT).replaceAll("-+$", "");
+		}
+		if (base.isEmpty()) {
+			base = "room";
+		}
 		String candidate = base;
-		for (int number = 2; slugTaken(candidate, room.getId()); number += 1) {
-			if (typed) {
-				throw ApiException.badRequest("Another room already uses the address /catalog/" + candidate + ".");
-			}
+		for (int number = 2; taken.test(candidate); number += 1) {
 			candidate = base + "-" + number;
 		}
 		return candidate;
-	}
-
-	private boolean slugTaken(String slug, String exceptId) {
-		return solutions.findAll().stream().anyMatch(other -> slug.equals(other.getSlug()) && !other.getId().equals(exceptId));
 	}
 
 	/** Lower-case letters, digits and single dashes: "Walk-in Closets" becomes "walk-in-closets". */
@@ -169,30 +189,76 @@ public class ContentService {
 		project.setTags(clean(tags, 200));
 		project.setLocation(clean(location, 120));
 
-		List<String> gallery = new ArrayList<>(lines(project.getGallery()));
-		List<String> toDelete = new ArrayList<>();
+		PhotoEdit edit = new PhotoEdit();
+		try {
+			project.setGallery(editGallery(project.getGallery(), removePhotos, newPhotos, edit,
+					"A project can have at most " + GALLERY_LIMIT + " gallery photos."));
+			project.setCover(editCover(project.getCover(), removeCover, cover, edit));
+			projects.save(project);
+		}
+		catch (RuntimeException exception) {
+			abandon(edit);
+			throw exception;
+		}
+		finish(edit);
+	}
+
+	/* ---------- Photos of projects and catalog items ---------- */
+
+	/** Photo files touched by one save: new uploads, and old files to delete once it succeeds. */
+	static final class PhotoEdit {
+
+		private final List<String> added = new ArrayList<>();
+
+		private final List<String> removed = new ArrayList<>();
+
+	}
+
+	/** Drops the gallery photos the admin ticked and stores the new uploads. */
+	String editGallery(String current, List<String> removePhotos, List<MultipartFile> newPhotos, PhotoEdit edit, String tooMany) {
+		List<String> gallery = new ArrayList<>(lines(current));
 		if (removePhotos != null) {
 			for (String name : removePhotos) {
 				if (gallery.remove(name)) {
-					toDelete.add(name);
+					edit.removed.add(name);
 				}
 			}
 		}
-		List<MultipartFile> added = newPhotos == null ? List.of() : newPhotos.stream().filter(ContentService::hasFile).toList();
-		if (gallery.size() + added.size() > GALLERY_LIMIT) {
-			throw ApiException.badRequest("A project can have at most " + GALLERY_LIMIT + " photos.");
+		List<MultipartFile> uploads = newPhotos == null ? List.of() : newPhotos.stream().filter(ContentService::hasFile).toList();
+		if (gallery.size() + uploads.size() > GALLERY_LIMIT) {
+			throw ApiException.badRequest(tooMany);
 		}
-		for (MultipartFile photo : added) {
-			gallery.add(files.storeUpload(photo, FileStorage.IMAGE_TYPES, IMAGE_LIMIT, IMAGE_TOO_LARGE));
+		for (MultipartFile photo : uploads) {
+			gallery.add(storeImage(photo, edit));
 		}
-		project.setGallery(String.join("\n", gallery));
+		return String.join("\n", gallery);
+	}
 
-		if (hasFile(cover) || removeCover) {
-			toDelete.add(project.getCover());
-			project.setCover(hasFile(cover) ? files.storeUpload(cover, FileStorage.IMAGE_TYPES, IMAGE_LIMIT, IMAGE_TOO_LARGE) : null);
+	/** Replaces or removes a cover photo; returns the cover to keep. */
+	String editCover(String current, boolean remove, MultipartFile cover, PhotoEdit edit) {
+		if (!hasFile(cover) && !remove) {
+			return current;
 		}
-		projects.save(project);
-		toDelete.forEach(files::deleteUpload);
+		if (current != null) {
+			edit.removed.add(current);
+		}
+		return hasFile(cover) ? storeImage(cover, edit) : null;
+	}
+
+	private String storeImage(MultipartFile file, PhotoEdit edit) {
+		String name = files.storeUpload(file, FileStorage.IMAGE_TYPES, IMAGE_LIMIT, IMAGE_TOO_LARGE);
+		edit.added.add(name);
+		return name;
+	}
+
+	/** After a successful save: deletes the files that were replaced or removed. */
+	void finish(PhotoEdit edit) {
+		edit.removed.forEach(files::deleteUpload);
+	}
+
+	/** After a failed save: deletes the files uploaded so far, so none are left behind. */
+	void abandon(PhotoEdit edit) {
+		edit.added.forEach(files::deleteUpload);
 	}
 
 	@Transactional

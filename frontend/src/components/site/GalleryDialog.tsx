@@ -35,7 +35,9 @@ export function GalleryDialog({ title, subtitle, photos, closeLabel, children, o
     setClosing(true);
     setTimeout(onClose, 260);
   };
-  const go = (next: number) => setIndex((next + photos.length) % photos.length);
+  const go = (next: number) => {
+    if (photos.length > 0) setIndex((next + photos.length) % photos.length);
+  };
 
   return (
     <dialog
@@ -119,9 +121,11 @@ export function GalleryDialog({ title, subtitle, photos, closeLabel, children, o
               </button>
             ))}
           </div>
-          <p className="shrink-0 text-[0.8125rem] tracking-[0.18em] text-ink/70" aria-live="polite">
-            <span className="text-ink">{pad(index)}</span> / {String(photos.length).padStart(2, "0")}
-          </p>
+          {photos.length > 0 && (
+            <p className="shrink-0 text-[0.8125rem] tracking-[0.18em] text-ink/70" aria-live="polite">
+              <span className="text-ink">{pad(index)}</span> / {String(photos.length).padStart(2, "0")}
+            </p>
+          )}
         </div>
       </div>
     </dialog>

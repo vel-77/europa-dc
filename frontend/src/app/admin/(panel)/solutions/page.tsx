@@ -83,6 +83,10 @@ export default async function SolutionsPage({ searchParams }: PageProps<"/admin/
             <textarea name="intro" rows={3} maxLength={1000} />
           </label>
           <label>
+            Address of its catalog page: /catalog/… (optional; made from the title if left empty)
+            <input name="slug" maxLength={80} pattern="[A-Za-z0-9 -]*" />
+          </label>
+          <label>
             Photo
             <input type="file" name="image" accept="image/png,image/jpeg,image/webp" />
           </label>

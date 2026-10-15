@@ -34,8 +34,8 @@ export default async function CatalogAdminPage({ searchParams }: PageProps<"/adm
     <>
       <h1>Catalog</h1>
       <p className="admin-hint">
-        The designs on each room’s catalog page. The cover is the photo in the grid; more photos open in the gallery. The
-        starting items are samples made from the designer’s photos and should be replaced.
+        The designs on each room’s catalog page. The cover is the photo in the grid; more photos open in the gallery. Photos
+        can be up to 8 MB each. The starting items are samples made from the designer’s photos and should be replaced.
       </p>
 
       <nav className="admin-tabs" aria-label="Rooms">
@@ -113,7 +113,7 @@ export default async function CatalogAdminPage({ searchParams }: PageProps<"/adm
                     </fieldset>
                   )}
                   <label>
-                    Add more photos (up to 12 in total)
+                    Add more photos (up to 12 besides the cover)
                     <input type="file" name="photos" accept={IMAGE_TYPES} multiple />
                   </label>
                   <button type="submit">Save item</button>
@@ -160,7 +160,7 @@ export default async function CatalogAdminPage({ searchParams }: PageProps<"/adm
             <input type="file" name="cover" accept={IMAGE_TYPES} />
           </label>
           <label>
-            More photos
+            More photos (up to 12 besides the cover)
             <input type="file" name="photos" accept={IMAGE_TYPES} multiple />
           </label>
           <button type="submit">Add design</button>

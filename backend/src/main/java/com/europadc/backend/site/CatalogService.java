@@ -1,6 +1,5 @@
 package com.europadc.backend.site;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,11 +20,13 @@ public class CatalogService {
 
 	private final CatalogItemRepository items;
 	private final SolutionRepository rooms;
+	private final ContentService content;
 	private final FileStorage files;
 
-	CatalogService(CatalogItemRepository items, SolutionRepository rooms, FileStorage files) {
+	CatalogService(CatalogItemRepository items, SolutionRepository rooms, ContentService content, FileStorage files) {
 		this.items = items;
 		this.rooms = rooms;
+		this.content = content;
 		this.files = files;
 	}
 
@@ -63,32 +64,18 @@ public class CatalogService {
 		item.setDetails(ContentService.clean(details, 200));
 		item.setDescription(ContentService.clean(description, 2000));
 
-		List<String> gallery = new ArrayList<>(ContentService.lines(item.getGallery()));
-		List<String> toDelete = new ArrayList<>();
-		if (removePhotos != null) {
-			for (String name : removePhotos) {
-				if (gallery.remove(name)) {
-					toDelete.add(name);
-				}
-			}
+		ContentService.PhotoEdit edit = new ContentService.PhotoEdit();
+		try {
+			item.setGallery(content.editGallery(item.getGallery(), removePhotos, newPhotos, edit,
+					"An item can have at most " + ContentService.GALLERY_LIMIT + " photos besides the cover."));
+			item.setCover(content.editCover(item.getCover(), removeCover, cover, edit));
+			items.save(item);
 		}
-		List<MultipartFile> added = newPhotos == null ? List.of() : newPhotos.stream().filter(ContentService::hasFile).toList();
-		if (gallery.size() + added.size() > ContentService.GALLERY_LIMIT) {
-			throw ApiException.badRequest("An item can have at most " + ContentService.GALLERY_LIMIT + " photos.");
+		catch (RuntimeException exception) {
+			content.abandon(edit);
+			throw exception;
 		}
-		for (MultipartFile photo : added) {
-			gallery.add(files.storeUpload(photo, FileStorage.IMAGE_TYPES, ContentService.IMAGE_LIMIT, ContentService.IMAGE_TOO_LARGE));
-		}
-		item.setGallery(String.join("\n", gallery));
-
-		if (ContentService.hasFile(cover) || removeCover) {
-			toDelete.add(item.getCover());
-			item.setCover(ContentService.hasFile(cover)
-					? files.storeUpload(cover, FileStorage.IMAGE_TYPES, ContentService.IMAGE_LIMIT, ContentService.IMAGE_TOO_LARGE)
-					: null);
-		}
-		items.save(item);
-		toDelete.forEach(files::deleteUpload);
+		content.finish(edit);
 	}
 
 	@Transactional
