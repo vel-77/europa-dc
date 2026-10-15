@@ -238,7 +238,7 @@
     transform: translateY(28px);
     transition: opacity 1.2s var(--ease-arch), transform 1.2s var(--ease-arch);
   }
-  .reveal.in {
+  .reveal[data-in] {
     opacity: 1;
     transform: none;
   }
@@ -246,7 +246,7 @@
     clip-path: inset(22% 0 0 0);
     transition: clip-path 1.8s var(--ease-arch);
   }
-  .reveal-img.in {
+  .reveal-img[data-in] {
     clip-path: inset(0 0 0 0);
   }
   .reveal-img img,
@@ -254,8 +254,8 @@
     transform: scale(1.16);
     transition: transform 2.4s var(--ease-arch);
   }
-  .reveal-img.in img,
-  .reveal-img.in .tex {
+  .reveal-img[data-in] img,
+  .reveal-img[data-in] .tex {
     transform: scale(1);
   }
   .zoom:hover img {
@@ -277,7 +277,7 @@
     transition: transform 1.4s var(--ease-arch);
     transition-delay: calc(var(--i) * 55ms);
   }
-  .split.in .w > span {
+  .split[data-in] .w > span {
     transform: none;
   }
 

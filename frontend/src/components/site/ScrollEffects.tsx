@@ -5,9 +5,10 @@ import { useEffect } from "react";
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 
 /**
- * Page-wide motion that only reads the DOM: reveals on scroll-in, the lit
- * principle in "Why", the process timeline, the showroom frame and the nav
- * background. Sections that keep state have their own components.
+ * Page-wide motion that only reads the DOM: reveals on scroll-in (marked with
+ * a data-in attribute), the lit principle in "Why", the process timeline, the
+ * showroom frame and the nav background. Sections that keep state have their
+ * own components.
  */
 export function ScrollEffects() {
   useEffect(() => {
@@ -17,7 +18,9 @@ export function ScrollEffects() {
       (entries) =>
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("in");
+            // An attribute rather than a class: React rewrites className when a
+            // component re-renders, which would hide the element again.
+            (entry.target as HTMLElement).dataset.in = "";
             observer.unobserve(entry.target);
           }
         }),
