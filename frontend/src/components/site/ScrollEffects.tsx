@@ -40,47 +40,52 @@ export function ScrollEffects() {
     const showroomImage = showroom?.querySelector("img");
 
     let frame = 0;
+    let navSolid: boolean | null = null;
     const update = () => {
       frame = 0;
+      // Read all positions first, then write: interleaving the two makes the
+      // browser recalculate the layout several times per frame.
+      const heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
+      const whyBoxes = whyItems.map((item) => item.getBoundingClientRect());
+      const desktop = innerWidth >= 1024;
+      const processBox = process && timeline ? (desktop ? process : timeline).getBoundingClientRect() : null;
+      const showroomBox = showroom && !reduce ? showroom.getBoundingClientRect() : null;
+
       if (nav && hero) {
-        const past = hero.getBoundingClientRect().bottom < 80;
-        nav.style.background = past ? "rgb(245 241 234 / 0.96)" : "transparent";
-        nav.style.borderBottom = past ? "1px solid rgb(30 28 26 / 0.08)" : "1px solid transparent";
+        const solid = heroBottom < 80;
+        if (solid !== navSolid) {
+          navSolid = solid;
+          nav.style.background = solid ? "rgb(245 241 234 / 0.96)" : "transparent";
+          nav.style.borderBottom = solid ? "1px solid rgb(30 28 26 / 0.08)" : "1px solid transparent";
+        }
       }
 
-      let nearest: HTMLElement | null = null;
+      let nearest = -1;
       let distance = Infinity;
-      for (const item of whyItems) {
-        const box = item.getBoundingClientRect();
+      whyBoxes.forEach((box, index) => {
         const d = Math.abs(box.top + box.height / 2 - innerHeight / 2);
         if (d < distance) {
           distance = d;
-          nearest = item;
+          nearest = index;
         }
-      }
-      whyItems.forEach((item) => item.classList.toggle("act", reduce || item === nearest));
+      });
+      whyItems.forEach((item, index) => item.classList.toggle("act", reduce || index === nearest));
 
-      if (process && timeline && fill && fillVertical) {
-        let progress: number;
-        if (innerWidth >= 1024) {
-          const box = process.getBoundingClientRect();
-          progress = clamp01((-box.top / (box.height - innerHeight)) * 1.15);
-        } else {
-          const box = timeline.getBoundingClientRect();
-          progress = clamp01((innerHeight * 0.7 - box.top) / box.height);
-        }
+      if (processBox && fill && fillVertical) {
+        let progress = desktop
+          ? clamp01((-processBox.top / (processBox.height - innerHeight)) * 1.15)
+          : clamp01((innerHeight * 0.7 - processBox.top) / processBox.height);
         if (reduce) progress = 1;
         fill.style.transform = `scaleX(${progress})`;
         fillVertical.style.transform = `scaleY(${progress})`;
         steps.forEach((step, index) => step.classList.toggle("act", progress >= index / steps.length + 0.02 || progress >= 0.999));
       }
 
-      if (showroom && !reduce) {
-        const box = showroom.getBoundingClientRect();
-        const opened = clamp01(1 - box.top / innerHeight);
+      if (showroom && showroomBox) {
+        const opened = clamp01(1 - showroomBox.top / innerHeight);
         showroom.style.clipPath = `inset(${((1 - opened) * 6).toFixed(2)}% ${((1 - opened) * 8).toFixed(2)}%)`;
-        if (showroomImage && innerWidth >= 1024) {
-          const centre = (box.top + box.height / 2 - innerHeight / 2) / innerHeight;
+        if (showroomImage && desktop) {
+          const centre = (showroomBox.top + showroomBox.height / 2 - innerHeight / 2) / innerHeight;
           showroomImage.style.transform = `scale(${(1.06 + Math.max(0, centre) * 0.1).toFixed(4)}) translateY(${(centre * -3).toFixed(3)}%)`;
         }
       }

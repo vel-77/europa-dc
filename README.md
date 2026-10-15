@@ -38,7 +38,7 @@ backend listens on localhost unless `SERVER_ADDRESS` is set.
 | What | Where |
 | --- | --- |
 | Home page | `frontend/src/app/page.tsx` (static sections), `frontend/src/components/site/` (sections with behaviour), styles and design tokens in `frontend/src/app/globals.css` |
-| Hero video scrub | `frontend/src/components/site/Hero.tsx`; frames in `frontend/public/hero/` (cut from the design's video with `ffmpeg -vf "fps=6,scale=1280:-2"`) |
+| Hero video scrub | `frontend/src/components/site/Hero.tsx`; 170 frames per size in `frontend/public/hero/1920` and `/1280`, cut from the design's video with `ffmpeg -i video.mp4 -vf "fps=12,scale=1920:-2" -c:v libwebp -quality 82 f%03d.webp` (and `scale=1280:-2`). If the frame count changes, update `FRAME_COUNT` |
 | Contact form | `frontend/src/components/site/ContactForm.tsx` → `frontend/src/app/api/inquiry/route.ts` → backend |
 | Admin panel pages | `frontend/src/app/admin/`; every change goes through `actions.ts` to the backend |
 | Backend API client | `frontend/src/lib/api.ts` |

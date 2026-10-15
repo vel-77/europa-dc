@@ -41,10 +41,15 @@ export function Testimonials({ testimonials }: { testimonials: TestimonialView[]
     };
     const speed = () => (innerWidth >= 1024 ? 34 : 22);
     const wrap = (n: number) => ((n % loopWidth) + loopWidth) % loopWidth;
+    let rendered = NaN;
     const render = () => {
-      const w = wrap(x);
-      railElement.style.transform = `translate3d(${(-w).toFixed(2)}px,0,0)`;
-      bar.style.left = `${((w / loopWidth) * 75).toFixed(3)}%`;
+      const w = Math.round(wrap(x) * 100) / 100;
+      // The loop runs every frame; only touch the DOM when the rail actually moved.
+      if (w === rendered) return;
+      rendered = w;
+      railElement.style.transform = `translate3d(${-w}px,0,0)`;
+      // The bar is a quarter of the track wide, so 300% of its width spans the track.
+      bar.style.transform = `translateX(${((w / loopWidth) * 300).toFixed(3)}%)`;
     };
     const ease = (t: number) => 1 - Math.pow(1 - t, 3);
     const glide = (to: number, ms: number) => {
