@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Split } from "./Split";
 
-export type SolutionView = { id: string; title: string; description: string; image: string | null };
+export type SolutionView = { id: string; title: string; description: string; image: string | null; slug: string };
 
 const pad = (n: number) => String(n + 1).padStart(2, "0");
 
@@ -74,12 +75,12 @@ export function Solutions({ solutions }: { solutions: SolutionView[] }) {
                   if (matchMedia("(hover:hover) and (min-width:1024px)").matches) select(index);
                 }}
               >
-                <a
-                  href="#contact"
+                <Link
+                  href={`/catalog/${solution.slug}`}
                   className="grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-4 py-7 lg:py-9"
                   onClick={(event) => {
-                    // On phones the row opens its photo instead of jumping to the form.
-                    if (matchMedia("(max-width:1023.98px)").matches) {
+                    // On phones the first tap opens the row's photo; tapping the open row goes to its catalog.
+                    if (index !== active && matchMedia("(max-width:1023.98px)").matches) {
                       event.preventDefault();
                       select(index);
                     }
@@ -91,19 +92,27 @@ export function Solutions({ solutions }: { solutions: SolutionView[] }) {
                     <span className="mt-2 block text-[0.9375rem] text-ink/70">{solution.description}</span>
                   </span>
                   <span className="arrow">→</span>
-                </a>
-                {solution.image && (
-                  <div className="sol-m lg:hidden">
-                    <div>
-                      <div className="frame aspect-[3/2] mb-7">
+                </Link>
+                <div className="sol-m lg:hidden">
+                  <div>
+                    {solution.image && (
+                      <div className="frame aspect-[3/2]">
                         <img src={solution.image} alt="" loading="lazy" />
                       </div>
-                    </div>
+                    )}
+                    <Link href={`/catalog/${solution.slug}`} className="tlink mb-5" tabIndex={index === active ? 0 : -1}>
+                      View the {solution.title.toLowerCase()} catalog <span className="arrow">→</span>
+                    </Link>
                   </div>
-                )}
+                </div>
               </li>
             ))}
           </ol>
+        </div>
+        <div className="mt-10 lg:mt-12">
+          <Link href="/catalog" className="btn btn-line">
+            Browse the full catalog <span className="arrow">→</span>
+          </Link>
         </div>
       </div>
     </section>

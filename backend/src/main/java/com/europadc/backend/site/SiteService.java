@@ -16,6 +16,7 @@ import com.europadc.backend.instagram.InstagramService.PostDto;
 import com.europadc.backend.instagram.InstagramService.StatusDto;
 import com.europadc.backend.site.ContentService.ProjectDto;
 import com.europadc.backend.site.ContentService.SolutionDto;
+import com.europadc.backend.site.CatalogService.CatalogItemDto;
 import com.europadc.backend.site.ContentService.TestimonialDto;
 
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,7 @@ public class SiteService {
 	/** What the admin panel needs: everything, plus Instagram state and inquiries. */
 	public record AdminSiteDto(SettingsDto settings, List<SolutionDto> solutions, List<ProjectDto> projects,
 			List<TestimonialDto> testimonials, List<CategoryDto> categories, List<BrandDto> brands, List<PostDto> posts,
-			StatusDto instagram, List<InquiryDto> inquiries) {
+			StatusDto instagram, List<InquiryDto> inquiries, List<CatalogItemDto> catalog) {
 	}
 
 	public record CategoryRequest(String name, String blurb, List<String> items) {
@@ -58,16 +59,19 @@ public class SiteService {
 	private final BrandRepository brands;
 	private final FileStorage files;
 	private final ContentService content;
+	private final CatalogService catalog;
 	private final InstagramService instagram;
 	private final InquiryService inquiries;
 
 	SiteService(SiteSettingsRepository settings, CategoryRepository categories, BrandRepository brands,
-			FileStorage files, ContentService content, InstagramService instagram, InquiryService inquiries) {
+			FileStorage files, ContentService content, CatalogService catalog, InstagramService instagram,
+			InquiryService inquiries) {
 		this.settings = settings;
 		this.categories = categories;
 		this.brands = brands;
 		this.files = files;
 		this.content = content;
+		this.catalog = catalog;
 		this.instagram = instagram;
 		this.inquiries = inquiries;
 	}
@@ -84,7 +88,7 @@ public class SiteService {
 	@Transactional(readOnly = true)
 	public AdminSiteDto adminSite() {
 		return new AdminSiteDto(settingsDto(), content.solutions(), content.projects(), content.testimonials(),
-				categoryDtos(), brandDtos(), instagram.posts(), instagram.status(), inquiries.all());
+				categoryDtos(), brandDtos(), instagram.posts(), instagram.status(), inquiries.all(), catalog.items());
 	}
 
 	private SettingsDto settingsDto() {

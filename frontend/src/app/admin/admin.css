@@ -379,3 +379,41 @@
   padding-left: 1.25rem;
   list-style: decimal;
 }
+
+.admin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-tabs a {
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: #fff;
+  text-decoration: none;
+}
+
+.admin-tabs a[aria-current="page"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+
+.admin-tabs small {
+  margin-left: 0.25rem;
+  opacity: 0.7;
+}
+
+.admin-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.admin-card-head a {
+  color: var(--blue);
+}

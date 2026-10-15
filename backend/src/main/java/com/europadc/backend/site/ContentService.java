@@ -3,6 +3,7 @@ package com.europadc.backend.site;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -10,6 +11,7 @@ import com.europadc.backend.ApiException;
 import com.europadc.backend.FileStorage;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +24,8 @@ public class ContentService {
 	static final String IMAGE_TOO_LARGE = "Images must be smaller than 8 MB.";
 	static final int GALLERY_LIMIT = 12;
 
-	public record SolutionDto(String id, String title, String description, String image) {
+	/** A room. `slug` is its address, as in /catalog/kitchens; `intro` heads its catalog page. */
+	public record SolutionDto(String id, String title, String description, String image, String slug, String intro) {
 	}
 
 	public record ProjectDto(String id, String title, String tags, String location, String cover, List<String> gallery) {
@@ -37,13 +40,15 @@ public class ContentService {
 	private final SolutionRepository solutions;
 	private final ProjectRepository projects;
 	private final TestimonialRepository testimonials;
+	private final CatalogItemRepository catalog;
 	private final FileStorage files;
 
 	ContentService(SolutionRepository solutions, ProjectRepository projects, TestimonialRepository testimonials,
-			FileStorage files) {
+			CatalogItemRepository catalog, FileStorage files) {
 		this.solutions = solutions;
 		this.projects = projects;
 		this.testimonials = testimonials;
+		this.catalog = catalog;
 		this.files = files;
 	}
 
@@ -51,7 +56,8 @@ public class ContentService {
 
 	public List<SolutionDto> solutions() {
 		return solutions.findAllByOrderBySortOrderAsc().stream()
-			.map(s -> new SolutionDto(s.getId(), s.getTitle(), s.getDescription(), s.getImage()))
+			.map(s -> new SolutionDto(s.getId(), s.getTitle(), s.getDescription(), s.getImage(), s.getSlug(),
+					s.getIntro() == null ? "" : s.getIntro()))
 			.toList();
 	}
 
@@ -70,7 +76,8 @@ public class ContentService {
 	/* ---------- Solutions ---------- */
 
 	@Transactional
-	public void saveSolution(String id, String title, String description, boolean removeImage, MultipartFile image) {
+	public void saveSolution(String id, String title, String description, String slug, String intro, boolean removeImage,
+			MultipartFile image) {
 		Solution solution = id.isEmpty() ? null
 				: solutions.findById(id).orElseThrow(() -> ApiException.notFound("That solution no longer exists."));
 		if (solution == null) {
@@ -84,6 +91,8 @@ public class ContentService {
 		}
 		solution.setTitle(cleanTitle);
 		solution.setDescription(clean(description, 200));
+		solution.setIntro(clean(intro, 1000));
+		solution.setSlug(roomSlug(solution, clean(slug, 80)));
 		if (hasFile(image) || removeImage) {
 			String previous = solution.getImage();
 			solution.setImage(hasFile(image) ? files.storeUpload(image, FileStorage.IMAGE_TYPES, IMAGE_LIMIT, IMAGE_TOO_LARGE) : null);
@@ -92,8 +101,42 @@ public class ContentService {
 		solutions.save(solution);
 	}
 
+	/**
+	 * Works out the room's address. Typed by the admin: cleaned up and checked
+	 * for clashes. Left empty: made from the title, numbered if already taken.
+	 */
+	private String roomSlug(Solution room, String requested) {
+		boolean typed = !requested.isEmpty();
+		String base = slugify(typed ? requested : room.getTitle());
+		if (base.isEmpty()) {
+			throw ApiException.badRequest("The address can only use letters, numbers and dashes.");
+		}
+		String candidate = base;
+		for (int number = 2; slugTaken(candidate, room.getId()); number += 1) {
+			if (typed) {
+				throw ApiException.badRequest("Another room already uses the address /catalog/" + candidate + ".");
+			}
+			candidate = base + "-" + number;
+		}
+		return candidate;
+	}
+
+	private boolean slugTaken(String slug, String exceptId) {
+		return solutions.findAll().stream().anyMatch(other -> slug.equals(other.getSlug()) && !other.getId().equals(exceptId));
+	}
+
+	/** Lower-case letters, digits and single dashes: "Walk-in Closets" becomes "walk-in-closets". */
+	static String slugify(String text) {
+		return text.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9]+", "-").replaceAll("^-|-$", "");
+	}
+
 	@Transactional
 	public void deleteSolution(String id) {
+		long items = catalog.countBySolutionId(id);
+		if (items > 0) {
+			throw new ApiException(HttpStatus.CONFLICT, "This room still has " + items
+					+ (items == 1 ? " catalog item" : " catalog items") + ". Move or remove them first.");
+		}
 		solutions.findById(id).ifPresent(solution -> {
 			solutions.delete(solution);
 			files.deleteUpload(solution.getImage());

@@ -3,8 +3,9 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { connection } from "next/server";
 import { asset } from "./asset";
+import demoCatalog from "./demo-catalog.json";
 import demoSite from "./demo-site.json";
-import type { AdminSite, Site } from "./types";
+import type { AdminSite, CatalogItem, Site } from "./types";
 
 // All data lives in the Java backend. These helpers run on the Next.js server
 // only, so the backend never has to be reachable from the visitor's browser.
@@ -47,6 +48,15 @@ export async function getSite(): Promise<Site> {
   const response = await request("/api/site");
   if (!response.ok) throw new Error(await errorMessage(response));
   return response.json();
+}
+
+/** Every catalog item, in display order within its room. */
+export async function getCatalog(): Promise<CatalogItem[]> {
+  if (DEMO) return demoCatalog.items;
+  await connection();
+  const response = await request("/api/catalog");
+  if (!response.ok) throw new Error(await errorMessage(response));
+  return ((await response.json()) as { items: CatalogItem[] }).items;
 }
 
 /* ---------- Admin session ---------- */

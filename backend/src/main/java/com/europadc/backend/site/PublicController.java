@@ -2,7 +2,10 @@ package com.europadc.backend.site;
 
 import java.time.Duration;
 
+import java.util.List;
+
 import com.europadc.backend.FileStorage;
+import com.europadc.backend.site.CatalogService.CatalogItemDto;
 import com.europadc.backend.site.SiteService.SiteDto;
 
 import org.springframework.core.io.Resource;
@@ -16,17 +19,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 class PublicController {
 
+	/** Catalog items for every room; the rooms themselves come with /api/site. */
+	record CatalogDto(List<CatalogItemDto> items) {
+	}
+
 	private final SiteService site;
+	private final CatalogService catalog;
 	private final FileStorage files;
 
-	PublicController(SiteService site, FileStorage files) {
+	PublicController(SiteService site, CatalogService catalog, FileStorage files) {
 		this.site = site;
+		this.catalog = catalog;
 		this.files = files;
 	}
 
 	@GetMapping("/api/site")
 	SiteDto site() {
 		return site.publicSite();
+	}
+
+	@GetMapping("/api/catalog")
+	CatalogDto catalog() {
+		return new CatalogDto(catalog.items());
 	}
 
 	@GetMapping("/uploads/{name}")

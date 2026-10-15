@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { PROJECT_TYPES } from "@/lib/project-types";
 
-const PROJECT_TYPES = ["Kitchen", "Bathroom", "Closet", "Outdoor", "Full Interior", "Other"];
+
 const MAX_FILES = 5;
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 
@@ -20,6 +21,19 @@ export function ContactForm({ disabled = false }: { disabled?: boolean }) {
   const [dragging, setDragging] = useState(false);
   const form = useRef<HTMLFormElement>(null);
   const done = useRef<HTMLDivElement>(null);
+
+  // Links from the catalog arrive as /?type=Kitchen&about=<design name>#contact.
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const fields = form.current?.elements;
+    if (!fields) return;
+    const type = params.get("type");
+    const select = fields.namedItem("projectType") as HTMLSelectElement | null;
+    if (select && type && PROJECT_TYPES.includes(type)) select.value = type;
+    const about = params.get("about");
+    const message = fields.namedItem("message") as HTMLTextAreaElement | null;
+    if (message && about && !message.value) message.value = `I'm interested in “${about.slice(0, 120)}”. `;
+  }, []);
 
   const addFiles = (incoming: FileList | File[]) => {
     const next = [...files];

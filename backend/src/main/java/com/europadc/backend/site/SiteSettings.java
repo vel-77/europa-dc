@@ -34,6 +34,9 @@ public class SiteSettings {
 	@Column(nullable = false, length = 60)
 	private String instagramHandle;
 
+	/** Which content upgrades have run (see SiteSeeder). Null on databases from before upgrades existed. */
+	private Integer contentVersion;
+
 	public Long getId() {
 		return id;
 	}
@@ -96,6 +99,14 @@ public class SiteSettings {
 
 	public void setInstagramHandle(String instagramHandle) {
 		this.instagramHandle = instagramHandle;
+	}
+
+	public Integer getContentVersion() {
+		return contentVersion;
+	}
+
+	public void setContentVersion(Integer contentVersion) {
+		this.contentVersion = contentVersion;
 	}
 
 }

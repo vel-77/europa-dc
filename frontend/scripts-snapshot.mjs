@@ -1,10 +1,12 @@
-// Captures the backend's public content into src/lib/demo-site.json and copies
-// the referenced images to public/demo, for the static GitHub Pages demo.
+// Captures the backend's public content into src/lib/demo-site.json and
+// src/lib/demo-catalog.json and copies the referenced images to public/demo,
+// for the static GitHub Pages demo.
 // Usage: node scripts-snapshot.mjs [backend url]
 import { mkdir, rm, writeFile } from "node:fs/promises";
 
 const backend = (process.argv[2] ?? process.env.BACKEND_URL ?? "http://localhost:8090").replace(/\/$/, "");
 const site = await (await fetch(`${backend}/api/site`)).json();
+const catalog = await (await fetch(`${backend}/api/catalog`)).json();
 await rm("public/demo", { recursive: true, force: true });
 await mkdir("public/demo", { recursive: true });
 
@@ -15,6 +17,10 @@ for (const p of site.projects) {
   p.gallery.forEach((n) => names.add(n));
 }
 for (const b of site.brands) if (b.logo) names.add(b.logo);
+for (const item of catalog.items) {
+  if (item.cover) names.add(item.cover);
+  item.gallery.forEach((n) => names.add(n));
+}
 for (const name of names) {
   const response = await fetch(`${backend}/uploads/${encodeURIComponent(name)}`);
   await writeFile(`public/demo/${name}`, Buffer.from(await response.arrayBuffer()));
@@ -22,4 +28,5 @@ for (const name of names) {
 // Instagram image links expire, so the demo never shows posts.
 site.posts = [];
 await writeFile("src/lib/demo-site.json", JSON.stringify(site, null, 2));
-console.log(`Saved ${names.size} images and src/lib/demo-site.json`);
+await writeFile("src/lib/demo-catalog.json", JSON.stringify(catalog, null, 2));
+console.log(`Saved ${names.size} images, src/lib/demo-site.json and src/lib/demo-catalog.json`);

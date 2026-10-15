@@ -7,7 +7,8 @@ const demo = Boolean(process.env.DEMO_EXPORT);
 const basePath = demo ? (process.env.PAGES_BASE_PATH ?? "") : "";
 
 const nextConfig: NextConfig = {
-  ...(demo ? { output: "export" as const, basePath } : {}),
+  // Folder-style URLs (/catalog/kitchens/) so GitHub Pages can serve every page.
+  ...(demo ? { output: "export" as const, basePath, trailingSlash: true } : {}),
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
   experimental: {
     // Room for a 1 MB brand logo plus the rest of the form.

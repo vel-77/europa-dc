@@ -22,6 +22,14 @@ public class Solution {
 	/** File name inside the uploads folder, or null. */
 	private String image;
 
+	/** The room's address on the site, as in /catalog/kitchens. Always set; nullable only so older databases can be upgraded. */
+	@Column(length = 80, unique = true)
+	private String slug;
+
+	/** A paragraph shown at the top of the room's catalog page. */
+	@Column(length = 1000)
+	private String intro;
+
 	@Column(nullable = false)
 	private int sortOrder;
 
@@ -63,6 +71,22 @@ public class Solution {
 
 	public void setSortOrder(int sortOrder) {
 		this.sortOrder = sortOrder;
+	}
+
+	public String getSlug() {
+		return slug;
+	}
+
+	public void setSlug(String slug) {
+		this.slug = slug;
+	}
+
+	public String getIntro() {
+		return intro;
+	}
+
+	public void setIntro(String intro) {
+		this.intro = intro;
 	}
 
 }

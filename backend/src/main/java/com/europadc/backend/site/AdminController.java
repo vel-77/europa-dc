@@ -37,11 +37,13 @@ class AdminController {
 
 	private final SiteService site;
 	private final ContentService content;
+	private final CatalogService catalog;
 	private final InstagramService instagram;
 
-	AdminController(SiteService site, ContentService content, InstagramService instagram) {
+	AdminController(SiteService site, ContentService content, CatalogService catalog, InstagramService instagram) {
 		this.site = site;
 		this.content = content;
+		this.catalog = catalog;
 		this.instagram = instagram;
 	}
 
@@ -102,9 +104,10 @@ class AdminController {
 
 	@PostMapping({ "/solutions", "/solutions/{id}" })
 	void saveSolution(@PathVariable(required = false) String id, @RequestParam String title,
-			@RequestParam(defaultValue = "") String description, @RequestParam(defaultValue = "false") boolean removeImage,
+			@RequestParam(defaultValue = "") String description, @RequestParam(defaultValue = "") String slug,
+			@RequestParam(defaultValue = "") String intro, @RequestParam(defaultValue = "false") boolean removeImage,
 			@RequestParam(required = false) MultipartFile image) {
-		content.saveSolution(id == null ? "" : id, title, description, removeImage, image);
+		content.saveSolution(id == null ? "" : id, title, description, slug, intro, removeImage, image);
 	}
 
 	@DeleteMapping("/solutions/{id}")
@@ -115,6 +118,27 @@ class AdminController {
 	@PostMapping("/solutions/{id}/move")
 	void moveSolution(@PathVariable String id, @RequestBody MoveRequest request) {
 		content.moveSolution(id, request.up());
+	}
+
+	/* ---------- Catalog ---------- */
+
+	@PostMapping({ "/catalog", "/catalog/{id}" })
+	void saveCatalogItem(@PathVariable(required = false) String id, @RequestParam String roomId, @RequestParam String title,
+			@RequestParam(defaultValue = "") String details, @RequestParam(defaultValue = "") String description,
+			@RequestParam(defaultValue = "false") boolean removeCover, @RequestParam(required = false) MultipartFile cover,
+			@RequestParam(required = false) List<MultipartFile> photos,
+			@RequestParam(required = false) List<String> removePhotos) {
+		catalog.save(id == null ? "" : id, roomId, title, details, description, removeCover, cover, photos, removePhotos);
+	}
+
+	@DeleteMapping("/catalog/{id}")
+	void deleteCatalogItem(@PathVariable String id) {
+		catalog.delete(id);
+	}
+
+	@PostMapping("/catalog/{id}/move")
+	void moveCatalogItem(@PathVariable String id, @RequestBody MoveRequest request) {
+		catalog.move(id, request.up());
 	}
 
 	/* ---------- Projects ---------- */

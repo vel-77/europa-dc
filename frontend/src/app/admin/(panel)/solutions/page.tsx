@@ -9,8 +9,11 @@ export default async function SolutionsPage({ searchParams }: PageProps<"/admin/
 
   return (
     <>
-      <h1>Solutions</h1>
-      <p className="admin-hint">The room types listed under “Everything your space needs”, each with a photo. Keep the photo upright (4:5 works best).</p>
+      <h1>Rooms</h1>
+      <p className="admin-hint">
+        The rooms listed under Solutions on the home page. Each has its own catalog page; add designs to it under Catalog. Keep the
+        photo upright (4:5 works best).
+      </p>
       <Message searchParams={searchParams} />
 
       <section className="admin-card">
@@ -21,6 +24,7 @@ export default async function SolutionsPage({ searchParams }: PageProps<"/admin/
                 <summary>
                   {solution.image && <img src={uploadUrl(solution.image) ?? ""} alt="" />}
                   <span>{solution.title}</span>
+                  <small>/catalog/{solution.slug}</small>
                 </summary>
                 <form action={saveSolution} className="admin-form">
                   <input type="hidden" name="id" value={solution.id} />
@@ -33,6 +37,14 @@ export default async function SolutionsPage({ searchParams }: PageProps<"/admin/
                     <input name="description" maxLength={200} defaultValue={solution.description} />
                   </label>
                   <label>
+                    Address of its catalog page: /catalog/…
+                    <input name="slug" maxLength={80} pattern="[A-Za-z0-9 -]*" defaultValue={solution.slug} />
+                  </label>
+                  <label>
+                    Introduction on its catalog page
+                    <textarea name="intro" rows={3} maxLength={1000} defaultValue={solution.intro} />
+                  </label>
+                  <label>
                     {solution.image ? "Replace photo" : "Photo"}
                     <input type="file" name="image" accept="image/png,image/jpeg,image/webp" />
                   </label>
@@ -41,12 +53,12 @@ export default async function SolutionsPage({ searchParams }: PageProps<"/admin/
                       <input type="checkbox" name="removeImage" /> Remove the photo
                     </label>
                   )}
-                  <button type="submit">Save solution</button>
+                  <button type="submit">Save room</button>
                 </form>
                 <form action={deleteSolution}>
                   <input type="hidden" name="id" value={solution.id} />
                   <input type="hidden" name="name" value={solution.title} />
-                  <ConfirmButton label="Remove solution" confirmLabel={`Remove ${solution.title}`} />
+                  <ConfirmButton label="Remove room" confirmLabel={`Remove ${solution.title}`} />
                 </form>
               </details>
               <MoveButtons action={moveSolution} id={solution.id} name={solution.title} first={index === 0} last={index === solutions.length - 1} />
@@ -56,7 +68,7 @@ export default async function SolutionsPage({ searchParams }: PageProps<"/admin/
       </section>
 
       <section className="admin-card">
-        <h2>Add a solution</h2>
+        <h2>Add a room</h2>
         <form action={saveSolution} className="admin-form">
           <label>
             Title
@@ -67,10 +79,14 @@ export default async function SolutionsPage({ searchParams }: PageProps<"/admin/
             <input name="description" maxLength={200} />
           </label>
           <label>
+            Introduction on its catalog page
+            <textarea name="intro" rows={3} maxLength={1000} />
+          </label>
+          <label>
             Photo
             <input type="file" name="image" accept="image/png,image/jpeg,image/webp" />
           </label>
-          <button type="submit">Add solution</button>
+          <button type="submit">Add room</button>
         </form>
       </section>
     </>

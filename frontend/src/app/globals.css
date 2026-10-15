@@ -179,6 +179,23 @@
     background: var(--color-bone);
     color: var(--color-charcoal);
   }
+  .btn-light {
+    background: var(--color-ivory);
+    color: var(--color-charcoal);
+    border-color: var(--color-ivory);
+  }
+  .btn-light:hover {
+    background: transparent;
+    color: var(--color-ivory);
+  }
+  .btn-ghost-light {
+    color: var(--color-ivory);
+    border-color: var(--color-line-light);
+  }
+  .btn-ghost-light:hover {
+    border-color: var(--color-ivory);
+    color: var(--color-ivory);
+  }
   .btn-ghost {
     background: transparent;
     color: inherit;
@@ -582,6 +599,15 @@
   }
   .pm-in > * {
     min-width: 0;
+  }
+  /* With a description row between the header and the photos. */
+  .pm-in.has-body {
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+  }
+  @media (max-width: 1023.98px) {
+    .pm-in.has-body {
+      grid-template-rows: auto auto auto auto;
+    }
   }
   @media (max-width: 1023.98px) {
     dialog.pm {

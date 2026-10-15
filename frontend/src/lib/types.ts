@@ -19,12 +19,29 @@ export type Brand = {
   visible: boolean;
 };
 
+/** A room: listed under Solutions on the home page, with its own catalog page. */
 export type Solution = {
   id: string;
   title: string;
   description: string;
   /** File name under /uploads, or null. */
   image: string | null;
+  /** Its address, as in /catalog/kitchens. */
+  slug: string;
+  /** Paragraph at the top of the room's catalog page. */
+  intro: string;
+};
+
+/** A design on a room's catalog page. */
+export type CatalogItem = {
+  id: string;
+  roomId: string;
+  title: string;
+  /** Short materials line, e.g. "Walnut veneer / Stone / Brass". */
+  details: string;
+  description: string;
+  cover: string | null;
+  gallery: string[];
 };
 
 export type Project = {
@@ -93,4 +110,4 @@ export type Site = {
   posts: InstagramPost[];
 };
 
-export type AdminSite = Site & { instagram: InstagramStatus; inquiries: Inquiry[] };
+export type AdminSite = Site & { instagram: InstagramStatus; inquiries: Inquiry[]; catalog: CatalogItem[] };

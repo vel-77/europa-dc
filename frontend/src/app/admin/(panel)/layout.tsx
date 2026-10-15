@@ -13,7 +13,8 @@ export default async function PanelLayout({ children }: { children: React.ReactN
         <nav aria-label="Admin sections">
           <Link href="/admin/inquiries">Inquiries{unread > 0 && <span className="admin-badge">{unread}</span>}</Link>
           <Link href="/admin/projects">Projects</Link>
-          <Link href="/admin/solutions">Solutions</Link>
+          <Link href="/admin/catalog">Catalog</Link>
+          <Link href="/admin/solutions">Rooms</Link>
           <Link href="/admin/testimonials">Testimonials</Link>
           <Link href="/admin">Brands</Link>
           <Link href="/admin/services">Brand categories</Link>

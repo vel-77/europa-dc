@@ -39,22 +39,25 @@ backend listens on localhost unless `SERVER_ADDRESS` is set.
 | --- | --- |
 | Home page | `frontend/src/app/page.tsx` (static sections), `frontend/src/components/site/` (sections with behaviour), styles and design tokens in `frontend/src/app/globals.css` |
 | Hero video scrub | `frontend/src/components/site/Hero.tsx`; 170 frames per size in `frontend/public/hero/1920` and `/1280`, cut from the design's video with `ffmpeg -i video.mp4 -vf "fps=12,scale=1920:-2" -c:v libwebp -quality 82 f%03d.webp` (and `scale=1280:-2`). If the frame count changes, update `FRAME_COUNT` |
-| Contact form | `frontend/src/components/site/ContactForm.tsx` → `frontend/src/app/api/inquiry/route.ts` → backend |
+| Catalog pages | `frontend/src/app/catalog/` (`/catalog` and `/catalog/<room>`), components in `frontend/src/components/catalog/` |
+| Contact form | `frontend/src/components/site/ContactForm.tsx` → `frontend/src/app/api/inquiry/route.ts` → backend. Accepts `?type=Kitchen&about=<design>` to pre-fill |
 | Admin panel pages | `frontend/src/app/admin/`; every change goes through `actions.ts` to the backend |
 | Backend API client | `frontend/src/lib/api.ts` |
 | API endpoints | `backend/.../site/PublicController.java`, `AdminController.java`, `inquiry/InquiryController.java`, `auth/LoginController.java` |
-| Solutions, projects, testimonials | `backend/.../site/ContentService.java` |
+| Rooms (Solutions), projects, testimonials | `backend/.../site/ContentService.java` |
+| Catalog items | `backend/.../site/CatalogService.java` |
 | Brands, categories, settings | `backend/.../site/SiteService.java` |
 | Inquiries | `backend/.../inquiry/InquiryService.java` |
 | Instagram feed | `backend/.../instagram/InstagramService.java` |
-| First-run content | `backend/.../site/SiteSeeder.java` (projects and testimonials are sample content) |
-| Static demo snapshot | `frontend/scripts-snapshot.mjs` writes `src/lib/demo-site.json` and `public/demo/` from a running backend |
+| First-run content and upgrades | `backend/.../site/SiteSeeder.java` (projects, testimonials and catalog items are sample content; `CONTENT_VERSION` upgrades older databases on start-up) |
+| Static demo snapshot | `frontend/scripts-snapshot.mjs` writes `src/lib/demo-site.json`, `src/lib/demo-catalog.json` and `public/demo/` from a running backend |
 
 ## API
 
 | Endpoint | Purpose |
 | --- | --- |
-| `GET /api/site` | Everything the home page shows |
+| `GET /api/site` | Everything the home page shows, including the rooms |
+| `GET /api/catalog` | Every catalog item, with the id of its room |
 | `GET /uploads/{name}` | An uploaded brand logo |
 | `POST /api/inquiries` | Contact form (multipart, up to five `files`) |
 | `POST /api/admin/login` | Password in, session token out |
@@ -62,7 +65,8 @@ backend listens on localhost unless `SERVER_ADDRESS` is set.
 | `POST /api/admin/brands`, `POST /api/admin/brands/{id}` | Add or update a brand (multipart form, optional `logo` file) |
 | `DELETE /api/admin/brands/{id}`, `POST /api/admin/brands/{id}/move` | Remove or reorder a brand |
 | `POST`, `PUT`, `DELETE /api/admin/categories[/{id}]`, `POST .../move` | Manage brand categories |
-| `POST /api/admin/solutions[/{id}]`, `DELETE`, `POST .../move` | Manage solutions (multipart, optional `image`) |
+| `POST /api/admin/solutions[/{id}]`, `DELETE`, `POST .../move` | Manage rooms (multipart: `title`, `description`, `slug`, `intro`, optional `image`) |
+| `POST /api/admin/catalog[/{id}]`, `DELETE`, `POST .../move` | Manage catalog items (multipart: `roomId`, `title`, `details`, `description`, `cover`, `photos`, `removePhotos`) |
 | `POST /api/admin/projects[/{id}]`, `DELETE`, `POST .../move` | Manage projects (multipart: `cover`, `photos`, `removePhotos`) |
 | `POST`, `PUT`, `DELETE /api/admin/testimonials[/{id}]`, `POST .../move` | Manage testimonials |
 | `POST /api/admin/inquiries/{id}/read`, `DELETE .../{id}`, `GET .../{id}/files/{name}` | Read, delete and download inquiries |

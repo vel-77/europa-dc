@@ -12,7 +12,7 @@ function text(form: FormData, key: string) {
 }
 
 function back(page: string, message: string, kind: "notice" | "error" = "notice"): never {
-  redirect(`${page}?${kind}=${encodeURIComponent(message)}`);
+  redirect(`${page}${page.includes("?") ? "&" : "?"}${kind}=${encodeURIComponent(message)}`);
 }
 
 /** Calls the backend; a rejected request becomes an error message on `page`. */
@@ -110,6 +110,8 @@ export async function saveSolution(form: FormData) {
   const body = new FormData();
   body.set("title", title);
   body.set("description", text(form, "description"));
+  body.set("slug", text(form, "slug"));
+  body.set("intro", text(form, "intro"));
   body.set("removeImage", String(form.get("removeImage") === "on"));
   const image = form.get("image");
   if (image instanceof File && image.size > 0) body.set("image", image);
@@ -126,6 +128,45 @@ export async function moveSolution(form: FormData) {
   const path = `/solutions/${encodeURIComponent(text(form, "id"))}/move`;
   await send("/admin/solutions", path, json("POST", { direction: text(form, "direction") }));
   redirect("/admin/solutions");
+}
+
+/* ---------- Catalog ---------- */
+
+/** The catalog page, showing the room an item belongs to. */
+const catalogPage = (roomId: string) => `/admin/catalog?room=${encodeURIComponent(roomId)}`;
+
+export async function saveCatalogItem(form: FormData) {
+  const id = text(form, "id");
+  const title = text(form, "title");
+  const roomId = text(form, "roomId");
+  // Go back to the room the item was in, even if it was just moved elsewhere.
+  const page = catalogPage(text(form, "returnRoom") || roomId);
+  const body = new FormData();
+  body.set("roomId", roomId);
+  body.set("title", title);
+  body.set("details", text(form, "details"));
+  body.set("description", text(form, "description"));
+  body.set("removeCover", String(form.get("removeCover") === "on"));
+  const cover = form.get("cover");
+  if (cover instanceof File && cover.size > 0) body.set("cover", cover);
+  for (const photo of form.getAll("photos")) {
+    if (photo instanceof File && photo.size > 0) body.append("photos", photo);
+  }
+  for (const name of form.getAll("removePhotos")) body.append("removePhotos", String(name));
+  await send(page, id ? `/catalog/${encodeURIComponent(id)}` : "/catalog", { method: "POST", body });
+  back(page, id ? `Saved ${title}.` : `Added ${title}.`);
+}
+
+export async function deleteCatalogItem(form: FormData) {
+  const page = catalogPage(text(form, "roomId"));
+  await send(page, `/catalog/${encodeURIComponent(text(form, "id"))}`, { method: "DELETE" });
+  back(page, `Removed ${text(form, "name")}.`);
+}
+
+export async function moveCatalogItem(form: FormData) {
+  const page = catalogPage(text(form, "roomId"));
+  await send(page, `/catalog/${encodeURIComponent(text(form, "id"))}/move`, json("POST", { direction: text(form, "direction") }));
+  redirect(page);
 }
 
 /* ---------- Projects ---------- */

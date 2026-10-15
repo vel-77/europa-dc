@@ -1,0 +1,139 @@
+{
+  "items": [
+    {
+      "id": "6983817e-6a97-44db-ba2f-318454d0652f",
+      "roomId": "52599657-cacc-4817-9b6a-432dd766bd13",
+      "title": "Walnut kitchen with curved island",
+      "details": "Walnut veneer / Stone / Herringbone oak floor",
+      "description": "Warm walnut cabinetry wraps the room, with a curved, fluted island and a stone top that seats four.",
+      "cover": "873fa901-0896-4e14-be87-1e3979e192ba.webp",
+      "gallery": []
+    },
+    {
+      "id": "f6932bba-d912-4b92-9189-ef8c01d9fd7c",
+      "roomId": "f43d9d6e-1074-4340-b7b8-e395575401f7",
+      "title": "Travertine vanity with brass fittings",
+      "details": "Travertine / Oak / Brushed brass",
+      "description": "A floating travertine vanity with an integrated basin, wall-mounted brass fittings and a backlit arched mirror.",
+      "cover": "c288642a-3d8c-4d2e-8224-b0b0988d060e.webp",
+      "gallery": []
+    },
+    {
+      "id": "fdf2f5d0-2390-48c8-9b4e-6967d6cee307",
+      "roomId": "54af2c1b-9c08-469c-8ba0-4d476e4409b0",
+      "title": "Walk-in closet with center island",
+      "details": "Wood / Glass shelving / Integrated lighting",
+      "description": "Hanging space and shelving on every wall, lit from within, around a central island with drawers.",
+      "cover": "8b1a0b55-ff07-417f-a5ac-0b9d90a2f6ee.webp",
+      "gallery": []
+    },
+    {
+      "id": "7c5d0159-2863-4ccd-9633-6489acd8c1e4",
+      "roomId": "74528910-5e61-4926-b2e6-b531b0d7042c",
+      "title": "Outdoor bar with stone counter",
+      "details": "Stone / Teak deck / Woven seating",
+      "description": "A stone-clad bar with seating for four on a hillside terrace.",
+      "cover": "11d03631-c5bd-4170-8450-f6d059d99dfa.webp",
+      "gallery": []
+    },
+    {
+      "id": "38d35f91-6258-44cc-900f-1da53ad9ba7a",
+      "roomId": "6393269b-ec95-4b6f-a8d8-f1f06a5f40a1",
+      "title": "Marble island with fluted base",
+      "details": "Marble / Fluted base",
+      "description": "A veined marble top with a waterfall end over a fluted base.",
+      "cover": "0531d78d-b2e4-40a7-952e-a136965c89bf.webp",
+      "gallery": []
+    },
+    {
+      "id": "07815d14-be30-4058-a899-e3d965320276",
+      "roomId": "2cba1da8-76fa-4bb4-ba9f-fe8dd7e8edf3",
+      "title": "Stone fireplace wall with lit shelving",
+      "details": "Stone cladding / Oak / Linear fireplace",
+      "description": "A linear fireplace set into stone cladding, with lit floating shelves and oak storage.",
+      "cover": "c5faaeef-9351-4b65-9864-e70dd4c15786.webp",
+      "gallery": []
+    },
+    {
+      "id": "8bcecfa0-4acf-4421-9c8f-b258ceae0699",
+      "roomId": "52599657-cacc-4817-9b6a-432dd766bd13",
+      "title": "Black stone kitchen with waterfall island",
+      "details": "Dekton / Matte black lacquer / Integrated lighting",
+      "description": "Full-height black cabinetry, a Dekton backsplash and an island with waterfall ends, lit beneath the wall units.",
+      "cover": "7b444df7-501b-4df6-96e1-151ce2d51c40.webp",
+      "gallery": []
+    },
+    {
+      "id": "5a10aa2d-1aa0-4a05-908a-0a2a87576035",
+      "roomId": "f43d9d6e-1074-4340-b7b8-e395575401f7",
+      "title": "Powder room with marble pedestal basin",
+      "details": "Green marble / Walnut / Brass",
+      "description": "A sculpted green marble basin set against walnut panelling and lit niches.",
+      "cover": "08a021ad-bd27-4447-9c0b-56859ca67fc1.webp",
+      "gallery": []
+    },
+    {
+      "id": "5585ad94-14ab-4582-841a-2d7e0272c0af",
+      "roomId": "6393269b-ec95-4b6f-a8d8-f1f06a5f40a1",
+      "title": "Dekton slab with copper veining",
+      "details": "Dekton / Ultracompact surface",
+      "description": "A black ultracompact surface with copper veining, shown on a mitred edge.",
+      "cover": "3f4abcff-9e40-442a-a81f-2a7c0ff640bd.webp",
+      "gallery": []
+    },
+    {
+      "id": "98c93b73-7011-4441-a501-1886401ba0d3",
+      "roomId": "52599657-cacc-4817-9b6a-432dd766bd13",
+      "title": "Sage lacquer kitchen with brass trim",
+      "details": "Sage lacquer / Blue stone / Brass",
+      "description": "Soft sage cabinetry with brass trim, a blue stone backsplash and an island facing the view.",
+      "cover": "b38923a3-c9fb-4fb8-9841-4458e2a44f5e.webp",
+      "gallery": []
+    },
+    {
+      "id": "7e8a7390-01d6-484d-b234-03262d9406e5",
+      "roomId": "f43d9d6e-1074-4340-b7b8-e395575401f7",
+      "title": "Marble vanity with brass faucet",
+      "details": "Marble / Brushed brass / Undermount basin",
+      "description": "A veined marble vanity with an undermount basin and a brushed brass faucet.",
+      "cover": "a6bc9c04-470b-45e0-90ae-281f7b99d869.webp",
+      "gallery": []
+    },
+    {
+      "id": "37786745-8e65-43d5-899f-c12c6ac432c4",
+      "roomId": "54af2c1b-9c08-469c-8ba0-4d476e4409b0",
+      "title": "Dressing room with framed shelving",
+      "details": "Walnut / Black metal frames / Integrated lighting",
+      "description": "Walnut shelving in slim black frames, with a dressing area and seating by the window.",
+      "cover": "6e5006c7-4c9e-401f-b485-c842e1344c67.webp",
+      "gallery": []
+    },
+    {
+      "id": "278f42f0-e6ce-4f14-a0ec-0a9d184ab894",
+      "roomId": "52599657-cacc-4817-9b6a-432dd766bd13",
+      "title": "Dark oak kitchen with dining island",
+      "details": "Dark oak / Charcoal lacquer / Lit open shelving",
+      "description": "Dark oak and charcoal cabinetry with lit open shelving and an island that extends into a dining table.",
+      "cover": "76070c7b-9ad3-491a-b642-9938fd86b510.webp",
+      "gallery": []
+    },
+    {
+      "id": "314fc47d-66b5-4cb9-9567-fa814b534160",
+      "roomId": "52599657-cacc-4817-9b6a-432dd766bd13",
+      "title": "Open kitchen in black and white lacquer",
+      "details": "Gloss lacquer / Stone wall / Integrated appliances",
+      "description": "A long run of black and white lacquer with integrated appliances, opening onto the garden.",
+      "cover": "be7a27b5-2883-4262-bdcf-ce876e255928.webp",
+      "gallery": []
+    },
+    {
+      "id": "1445cb17-2e02-4b05-876c-0b895abb1e1a",
+      "roomId": "52599657-cacc-4817-9b6a-432dd766bd13",
+      "title": "Walnut tall units with built-in ovens",
+      "details": "Walnut veneer / Stone island / Lit niches",
+      "description": "Tall walnut units with built-in ovens and lit display niches beside a stone island.",
+      "cover": "0426a659-4ef5-4736-8119-be45227ea30b.webp",
+      "gallery": []
+    }
+  ]
+}

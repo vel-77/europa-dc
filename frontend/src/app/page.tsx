@@ -3,6 +3,7 @@ import { Hero } from "@/components/site/Hero";
 import { Nav } from "@/components/site/Nav";
 import { Projects } from "@/components/site/Projects";
 import { ScrollEffects } from "@/components/site/ScrollEffects";
+import { SiteFooter } from "@/components/site/SiteFooter";
 import { Solutions } from "@/components/site/Solutions";
 import { Split } from "@/components/site/Split";
 import { Testimonials } from "@/components/site/Testimonials";
@@ -43,7 +44,7 @@ export default async function Home() {
   return (
     <>
       <ScrollEffects />
-      <Nav />
+      <Nav home />
       <main id="top">
         <Hero />
 
@@ -428,43 +429,7 @@ export default async function Home() {
         </section>
       </main>
 
-      <footer className="bg-charcoal text-ivory">
-        <div className="shell border-t border-line-light pt-5 pb-5 md:pt-16 md:pb-10">
-          <div className="grid-12 gap-y-5 md:gap-y-12">
-            <div className="col-span-12 lg:col-span-5 max-md:pb-5 max-md:border-b max-md:border-line-light">
-              <img src={asset("/europa-logo-white.png")} alt="Europa DC Inc." className="h-11 md:h-16 w-auto" />
-              <a href="#contact" className="tlink mt-4 md:mt-8">
-                Book a Consultation <span className="arrow">→</span>
-              </a>
-            </div>
-            <nav className="col-span-6 max-md:row-span-2 md:col-span-4 lg:col-span-2 lg:col-start-7 flex flex-col gap-2 md:gap-3 text-[0.9375rem] text-stone" aria-label="Footer">
-              <p className="eyebrow text-taupe md:hidden">Explore</p>
-              <a href="#projects">Projects</a>
-              <a href="#solutions">Solutions</a>
-              <a href="#about">About</a>
-              <a href="#materials">Brands</a>
-              <a href="#showroom">Showroom</a>
-              <a href="#contact">Contact</a>
-            </nav>
-            <div className="col-span-6 md:col-span-4 lg:col-span-2 flex flex-col gap-2 md:gap-3 text-[0.9375rem] text-stone">
-              <p className="eyebrow text-taupe">Showroom</p>
-              <address className="not-italic leading-[1.7] whitespace-pre-line">{settings.address}</address>
-              {settings.phone && <a href={`tel:${settings.phone.replace(/[^\d+]/g, "")}`}>{settings.phone}</a>}
-            </div>
-            <div className="col-span-6 md:col-span-4 lg:col-span-2 flex flex-col gap-2 md:gap-3 text-[0.9375rem] text-stone">
-              <p className="eyebrow text-taupe">Follow</p>
-              <a href={instagramUrl} target="_blank" rel="noreferrer">
-                Instagram
-              </a>
-              {settings.email && <a href={`mailto:${settings.email}`}>Email</a>}
-            </div>
-          </div>
-          <div className="mt-5 pt-5 border-t border-line-light md:border-0 md:pt-0 md:mt-20 flex flex-col md:flex-row md:flex-wrap md:justify-between gap-2 md:gap-4 text-[0.75rem] leading-[1.6] text-taupe">
-            <p>© {new Date().getFullYear()} {settings.siteName}</p>
-            <p>{solutions.map((solution) => solution.title).join(" · ")}</p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter settings={settings} rooms={solutions} home />
     </>
   );
 }
