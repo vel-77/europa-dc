@@ -1,5 +1,7 @@
-# Caddy gets and renews the HTTPS certificate for SITE_DOMAIN by itself.
+# Caddy gets and renews the HTTPS certificates for every address below by itself.
 # It sets no upload size limit, so admin photo uploads pass through.
+
+# The site itself.
 {$SITE_DOMAIN} {
 	encode zstd gzip
 	header {
@@ -9,4 +11,12 @@
 		-Server
 	}
 	reverse_proxy frontend:3000
+}
+
+# Other addresses that should land on the site, e.g. www or an old temporary
+# address: a comma-separated list in REDIRECT_DOMAINS. The default is a
+# placeholder Caddy serves with its own internal certificate and never
+# requests a public certificate for.
+{$REDIRECT_DOMAINS:redirect.localhost} {
+	redir https://{$SITE_DOMAIN}{uri} permanent
 }

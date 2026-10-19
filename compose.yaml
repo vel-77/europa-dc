@@ -43,6 +43,7 @@ services:
       - "443:443/udp"
     environment:
       SITE_DOMAIN: ${SITE_DOMAIN:?Set SITE_DOMAIN in .env}
+      REDIRECT_DOMAINS: ${REDIRECT_DOMAINS:-redirect.localhost}
     volumes:
       - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
       # Certificates; keeping them avoids Let's Encrypt rate limits on restarts.
