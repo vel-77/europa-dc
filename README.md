@@ -54,8 +54,13 @@ To update after pushing changes: `cd /opt/europa-dc && git pull && docker compos
 
 To move to another domain: point its DNS A record to the server, change `SITE_DOMAIN` in
 `/opt/europa-dc/.env`, then run `docker compose up -d caddy`. Caddy gets the new certificate
-within a minute. Until a domain is available, an sslip.io name that contains the server's IP
+within a minute. Add the old address to `REDIRECT_DOMAINS` so links to it keep working. Until
+a domain is available, an sslip.io name that contains the server's IP
 (e.g. `europa-dc.5-78-223-55.sslip.io`) works without any DNS setup.
+
+The live site is https://europa-dc.com (www and the earlier sslip.io address redirect to it).
+DNS is managed at GoDaddy; the MX, SPF (`@` TXT) and `titan._domainkey` records there belong to
+the company's Titan email and must stay when other records change.
 
 Content (database, uploaded photos, inquiry attachments) lives in the `backend-data` Docker
 volume; back it up, or turn on the hosting provider's server backups.
