@@ -52,6 +52,11 @@ certificate; it keeps retrying until they do.
 
 To update after pushing changes: `cd /opt/europa-dc && git pull && docker compose up -d --build`.
 
+To move to another domain: point its DNS A record to the server, change `SITE_DOMAIN` in
+`/opt/europa-dc/.env`, then run `docker compose up -d caddy`. Caddy gets the new certificate
+within a minute. Until a domain is available, an sslip.io name that contains the server's IP
+(e.g. `europa-dc.5-78-223-55.sslip.io`) works without any DNS setup.
+
 Content (database, uploaded photos, inquiry attachments) lives in the `backend-data` Docker
 volume; back it up, or turn on the hosting provider's server backups.
 
