@@ -7,8 +7,9 @@ const demo = Boolean(process.env.DEMO_EXPORT);
 const basePath = demo ? (process.env.PAGES_BASE_PATH ?? "") : "";
 
 const nextConfig: NextConfig = {
-  // Folder-style URLs (/catalog/kitchens/) so GitHub Pages can serve every page.
-  ...(demo ? { output: "export" as const, basePath, trailingSlash: true } : {}),
+  // Demo: folder-style URLs (/catalog/kitchens/) so GitHub Pages can serve every page.
+  // Server: a self-contained build for the Docker image (see frontend/Dockerfile).
+  ...(demo ? { output: "export" as const, basePath, trailingSlash: true } : { output: "standalone" as const }),
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
   experimental: {
     // Admin uploads go through server actions. Allow a little more than the

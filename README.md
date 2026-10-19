@@ -33,6 +33,28 @@ For production: `./mvnw package` and run the jar in `backend/target/`; `npm run 
 `npm start` in `frontend/`. Only the frontend has to be reachable from the internet. The
 backend listens on localhost unless `SERVER_ADDRESS` is set.
 
+## Deploying to a server
+
+Production runs in Docker: Caddy (HTTPS, certificates renewed automatically) in front of the
+Next.js frontend, which talks to the Java backend. Only Caddy is reachable from outside.
+
+On a fresh Ubuntu server with Docker installed:
+
+```bash
+git clone https://github.com/vel-77/europa-dc.git /opt/europa-dc
+cd /opt/europa-dc
+cp deploy/.env.example .env      # set SITE_DOMAIN, ADMIN_PASSWORD, SESSION_SECRET
+docker compose up -d --build
+```
+
+The domain's DNS A (and AAAA) records must point to the server before Caddy can get a
+certificate; it keeps retrying until they do.
+
+To update after pushing changes: `cd /opt/europa-dc && git pull && docker compose up -d --build`.
+
+Content (database, uploaded photos, inquiry attachments) lives in the `backend-data` Docker
+volume; back it up, or turn on the hosting provider's server backups.
+
 ## Where things are
 
 | What | Where |

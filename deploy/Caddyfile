@@ -1,0 +1,12 @@
+# Caddy gets and renews the HTTPS certificate for SITE_DOMAIN by itself.
+# It sets no upload size limit, so admin photo uploads pass through.
+{$SITE_DOMAIN} {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+	reverse_proxy frontend:3000
+}

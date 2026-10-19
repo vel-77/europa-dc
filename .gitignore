@@ -3,3 +3,5 @@
 /design/
 # Original high-resolution photos from the designer (web versions are in the app).
 /fixtures/
+# Server settings for docker compose (see deploy/.env.example).
+/.env
