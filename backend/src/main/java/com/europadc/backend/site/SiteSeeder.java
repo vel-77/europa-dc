@@ -55,17 +55,37 @@ class SiteSeeder implements SmartLifecycle {
 
 	/**
 	 * Content upgrades applied so far. 1: the original site. 2: room addresses,
-	 * intros and the catalog. Raise it when adding an upgrade to run().
+	 * intros and the catalog. 3: copy fixes in seeded text. Raise it when adding
+	 * an upgrade to run().
 	 */
-	static final int CONTENT_VERSION = 2;
+	static final int CONTENT_VERSION = 3;
 
 	private static final Map<String, String> INTROS = Map.of(
-			"kitchens", "Custom European cabinetry, stone and built-in appliances, planned together around the way you cook and gather.",
-			"bathrooms", "Vanities, stone, fixtures and lighting for primary baths, guest baths and powder rooms.",
-			"closets", "Walk-in closets and dressing rooms with shelving, drawers and lighting built to fit the room.",
+			"kitchens", "Custom European cabinetry, stone, and built-in appliances, planned together around the way you cook and gather.",
+			"bathrooms", "Vanities, stone, fixtures, and lighting for primary baths, guest baths, and powder rooms.",
+			"closets", "Walk-in closets and dressing rooms with shelving, drawers, and lighting built to fit the room.",
 			"outdoor", "Outdoor kitchens and bars in materials made for sun and weather.",
-			"surfaces", "Natural stone and ultracompact surfaces for countertops, islands, floors, walls and fireplaces.",
-			"details", "Fixtures, glass, wall panels, hardware and the finishing elements that complete a space.");
+			"surfaces", "Natural stone and ultracompact surfaces for countertops, islands, floors, walls, and fireplaces.",
+			"details", "Fixtures, glass, wall panels, hardware, and the finishing elements that complete a space.");
+
+	/** Upgrade 3: seeded text as first written, and its corrected version. */
+	private static final Map<String, String> TEXT_FIXES = Map.ofEntries(
+			Map.entry("Admin@EuropaDC.pro", "admin@europadc.pro"),
+			Map.entry("Custom European cabinetry, stone and built-in appliances, planned together around the way you cook and gather.",
+					INTROS.get("kitchens")),
+			Map.entry("Vanities, stone, fixtures and lighting for primary baths, guest baths and powder rooms.", INTROS.get("bathrooms")),
+			Map.entry("Walk-in closets and dressing rooms with shelving, drawers and lighting built to fit the room.",
+					INTROS.get("closets")),
+			Map.entry("Natural stone and ultracompact surfaces for countertops, islands, floors, walls and fireplaces.",
+					INTROS.get("surfaces")),
+			Map.entry("Fixtures, glass, wall panels, hardware and the finishing elements that complete a space.", INTROS.get("details")),
+			Map.entry("Faucets, sinks and shower fittings.", "Faucets, sinks, and shower fittings."),
+			Map.entry("Full-height black cabinetry, a Dekton backsplash and an island with waterfall ends, lit beneath the wall units.",
+					"Full-height black cabinetry, a Dekton backsplash, and an island with waterfall ends, lit beneath the wall units."),
+			Map.entry("Soft sage cabinetry with brass trim, a blue stone backsplash and an island facing the view.",
+					"Soft sage cabinetry with brass trim, a blue stone backsplash, and an island facing the view."),
+			Map.entry("A floating travertine vanity with an integrated basin, wall-mounted brass fittings and a backlit arched mirror.",
+					"A floating travertine vanity with an integrated basin, wall-mounted brass fittings, and a backlit arched mirror."));
 
 	SiteSeeder(SiteSettingsRepository settings, CategoryRepository categories, BrandRepository brands,
 			SolutionRepository solutions, ProjectRepository projects, TestimonialRepository testimonials,
@@ -97,6 +117,9 @@ class SiteSeeder implements SmartLifecycle {
 		if (version < 2) {
 			addRoomAddressesAndCatalog();
 		}
+		if (version < 3) {
+			fixSeededText(existing);
+		}
 		if (version < CONTENT_VERSION) {
 			existing.setContentVersion(CONTENT_VERSION);
 			settings.save(existing);
@@ -119,6 +142,27 @@ class SiteSeeder implements SmartLifecycle {
 		}
 	}
 
+	/**
+	 * Upgrade 3: serial commas and a lower-case email. Only text that is still
+	 * exactly as first seeded changes, so edits made in the admin panel stay.
+	 */
+	private void fixSeededText(SiteSettings site) {
+		site.setEmail(fixed(site.getEmail()));
+		List<Solution> rooms = solutions.findAll();
+		rooms.forEach(room -> room.setIntro(fixed(room.getIntro())));
+		solutions.saveAll(rooms);
+		List<Category> blurbs = categories.findAll();
+		blurbs.forEach(category -> category.setBlurb(fixed(category.getBlurb())));
+		categories.saveAll(blurbs);
+		List<CatalogItem> items = catalog.findAll();
+		items.forEach(item -> item.setDescription(fixed(item.getDescription())));
+		catalog.saveAll(items);
+	}
+
+	private static String fixed(String text) {
+		return text == null ? null : TEXT_FIXES.getOrDefault(text, text);
+	}
+
 	private boolean slugInUse(String slug) {
 		return solutions.findAll().stream().anyMatch(room -> slug.equals(room.getSlug()));
 	}
@@ -130,7 +174,7 @@ class SiteSeeder implements SmartLifecycle {
 		row.setAddress("1217 West Glenoaks Blvd.\nGlendale, CA 91201");
 		row.setMapUrl("https://www.google.com/maps/search/?api=1&query=1217+West+Glenoaks+Blvd+Glendale+CA+91201");
 		row.setPhone("+1 (818) 696-2600");
-		row.setEmail("Admin@EuropaDC.pro");
+		row.setEmail("admin@europadc.pro");
 		row.setHours("");
 		row.setInstagramHandle("europa.dc");
 		row.setContentVersion(CONTENT_VERSION);
@@ -161,7 +205,7 @@ class SiteSeeder implements SmartLifecycle {
 		category("doors", "Doors", "Exterior and interior doors.", "Exterior, custom", "Interior");
 		category("decorative-panels", "Decorative panels", "Wall panels as a finished surface.");
 		category("custom-mirrors", "Custom mirrors", "Mirrors made to size.");
-		category("plumbing-fixtures", "Plumbing fixtures", "Faucets, sinks and shower fittings.");
+		category("plumbing-fixtures", "Plumbing fixtures", "Faucets, sinks, and shower fittings.");
 
 		brand("Miele", "appliances", "https://www.mieleusa.com");
 		brand("Gaggenau", "appliances", "https://www.gaggenau.com/us");
@@ -190,10 +234,10 @@ class SiteSeeder implements SmartLifecycle {
 		item("kitchens", "Walnut kitchen with curved island", "Walnut veneer / Stone / Herringbone oak floor",
 				"Warm walnut cabinetry wraps the room, with a curved, fluted island and a stone top that seats four.", "sol-kitchens");
 		item("kitchens", "Black stone kitchen with waterfall island", "Dekton / Matte black lacquer / Integrated lighting",
-				"Full-height black cabinetry, a Dekton backsplash and an island with waterfall ends, lit beneath the wall units.",
+				"Full-height black cabinetry, a Dekton backsplash, and an island with waterfall ends, lit beneath the wall units.",
 				"catalog-dekton-kitchen");
 		item("kitchens", "Sage lacquer kitchen with brass trim", "Sage lacquer / Blue stone / Brass",
-				"Soft sage cabinetry with brass trim, a blue stone backsplash and an island facing the view.", "catalog-sage-kitchen");
+				"Soft sage cabinetry with brass trim, a blue stone backsplash, and an island facing the view.", "catalog-sage-kitchen");
 		item("kitchens", "Dark oak kitchen with dining island", "Dark oak / Charcoal lacquer / Lit open shelving",
 				"Dark oak and charcoal cabinetry with lit open shelving and an island that extends into a dining table.",
 				"catalog-oak-kitchen");
@@ -202,7 +246,7 @@ class SiteSeeder implements SmartLifecycle {
 		item("kitchens", "Walnut tall units with built-in ovens", "Walnut veneer / Stone island / Lit niches",
 				"Tall walnut units with built-in ovens and lit display niches beside a stone island.", "catalog-walnut-cabinetry");
 		item("bathrooms", "Travertine vanity with brass fittings", "Travertine / Oak / Brushed brass",
-				"A floating travertine vanity with an integrated basin, wall-mounted brass fittings and a backlit arched mirror.",
+				"A floating travertine vanity with an integrated basin, wall-mounted brass fittings, and a backlit arched mirror.",
 				"sol-bathrooms");
 		item("bathrooms", "Powder room with marble pedestal basin", "Green marble / Walnut / Brass",
 				"A sculpted green marble basin set against walnut panelling and lit niches.", "proj-3");

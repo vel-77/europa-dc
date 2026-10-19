@@ -4,7 +4,7 @@
     "address": "1217 West Glenoaks Blvd.\nGlendale, CA 91201",
     "mapUrl": "https://www.google.com/maps/search/?api=1&query=1217+West+Glenoaks+Blvd+Glendale+CA+91201",
     "phone": "+1 (818) 696-2600",
-    "email": "Admin@EuropaDC.pro",
+    "email": "admin@europadc.pro",
     "hours": "",
     "instagramHandle": "europa.dc"
   },
@@ -15,7 +15,7 @@
       "description": "Custom kitchen design and cabinetry",
       "image": "1ea7b3d9-2a3d-4a92-895f-99747ae66c31.webp",
       "slug": "kitchens",
-      "intro": "Custom European cabinetry, stone and built-in appliances, planned together around the way you cook and gather."
+      "intro": "Custom European cabinetry, stone, and built-in appliances, planned together around the way you cook and gather."
     },
     {
       "id": "f43d9d6e-1074-4340-b7b8-e395575401f7",
@@ -23,7 +23,7 @@
       "description": "Vanities, fixtures, surfaces, and details",
       "image": "a07573bd-ca03-452a-a887-781ac9ee3227.webp",
       "slug": "bathrooms",
-      "intro": "Vanities, stone, fixtures and lighting for primary baths, guest baths and powder rooms."
+      "intro": "Vanities, stone, fixtures, and lighting for primary baths, guest baths, and powder rooms."
     },
     {
       "id": "54af2c1b-9c08-469c-8ba0-4d476e4409b0",
@@ -31,7 +31,7 @@
       "description": "Storage solutions designed around your lifestyle",
       "image": "fdcfb714-8b76-4d40-8944-8df6289505a0.webp",
       "slug": "closets",
-      "intro": "Walk-in closets and dressing rooms with shelving, drawers and lighting built to fit the room."
+      "intro": "Walk-in closets and dressing rooms with shelving, drawers, and lighting built to fit the room."
     },
     {
       "id": "74528910-5e61-4926-b2e6-b531b0d7042c",
@@ -47,7 +47,7 @@
       "description": "Premium stone and architectural surfaces",
       "image": "a2c5d848-9eff-49a9-9088-7d6f0c740cd3.webp",
       "slug": "surfaces",
-      "intro": "Natural stone and ultracompact surfaces for countertops, islands, floors, walls and fireplaces."
+      "intro": "Natural stone and ultracompact surfaces for countertops, islands, floors, walls, and fireplaces."
     },
     {
       "id": "2cba1da8-76fa-4bb4-ba9f-fe8dd7e8edf3",
@@ -55,7 +55,7 @@
       "description": "Fixtures, glass, wall panels, hardware, and finishing elements",
       "image": "ace453b9-3663-43bd-accf-694d766a660c.webp",
       "slug": "details",
-      "intro": "Fixtures, glass, wall panels, hardware and the finishing elements that complete a space."
+      "intro": "Fixtures, glass, wall panels, hardware, and the finishing elements that complete a space."
     }
   ],
   "projects": [
@@ -166,7 +166,7 @@
     {
       "id": "plumbing-fixtures",
       "name": "Plumbing fixtures",
-      "blurb": "Faucets, sinks and shower fittings.",
+      "blurb": "Faucets, sinks, and shower fittings.",
       "items": []
     }
   ],

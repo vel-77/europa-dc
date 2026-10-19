@@ -58,7 +58,7 @@ export default async function Home() {
                 className="absolute top-0 bottom-0 right-0 left-[calc(50%+2rem)] bg-cover bg-[position:78%_50%] bg-no-repeat"
                 style={{ backgroundImage: `url(${asset("/img/about-interior.webp")})` }}
                 role="img"
-                aria-label="Kitchen with sage-green cabinetry, a blue stone backsplash and brass pendant lights"
+                aria-label="Kitchen with sage-green cabinetry, a blue stone backsplash, and brass pendant lights"
               />
               <div className="shell h-full grid-12">
                 <div className="col-span-5 grid h-full">
@@ -101,7 +101,7 @@ export default async function Home() {
               className="mt-10 h-[72svh] w-full bg-cover bg-[position:78%_50%] bg-no-repeat"
               style={{ backgroundImage: `url(${asset("/img/about-interior.webp")})` }}
               role="img"
-              aria-label="Kitchen with sage-green cabinetry, a blue stone backsplash and brass pendant lights"
+              aria-label="Kitchen with sage-green cabinetry, a blue stone backsplash, and brass pendant lights"
             />
           </div>
           <div className="bg-charcoal text-ivory">
@@ -152,7 +152,7 @@ export default async function Home() {
             <div className="grid-12 mt-20 lg:mt-32 gap-y-12 items-start">
               <div className="col-span-12 lg:col-span-5 lg:sticky lg:top-28">
                 <div className="frame aspect-[4/5] !bg-ink reveal-img">
-                  <img src={asset("/img/why.webp")} alt="Stone, light and shadow in a finished kitchen" loading="lazy" />
+                  <img src={asset("/img/why.webp")} alt="Stone, light, and shadow in a finished kitchen" loading="lazy" />
                 </div>
               </div>
               <ol className="col-span-12 lg:col-span-6 lg:col-start-7">
@@ -232,7 +232,7 @@ export default async function Home() {
                     Dekton<sup className="text-[0.4em] align-super">®</sup>
                   </h3>
                   <p className="mt-5 text-[0.9375rem] leading-[1.7] text-ink/75">
-                    The ultracompact surface in our hero kitchen. Countertops, waterfall islands, and full-height backsplashes
+                    The ultracompact surface in our showroom kitchen. Countertops, waterfall islands, and full-height backsplashes
                     in a single, continuous material.
                   </p>
                 </div>
@@ -389,7 +389,7 @@ export default async function Home() {
               </div>
             ) : (
               <p className="mt-14 lg:mt-20 max-w-[34rem] text-[1rem] leading-[1.7] text-stone reveal">
-                Finished projects, materials and showroom updates, as they happen.
+                Finished projects, materials, and showroom updates, as they happen.
               </p>
             )}
             <div className="mt-10 lg:mt-14 grid-12">

@@ -342,7 +342,8 @@ export function Hero() {
               </div>
             </div>
             <div className="absolute inset-x-[var(--spacing-gutter)] bottom-8 lg:bottom-10 flex items-end justify-between gap-6">
-              <div className="flex items-center gap-4 text-[0.6875rem] tracking-[0.2em] text-taupe-ink">
+              {/* Purely a scroll-progress picture: screen readers already get all three stages as text. */}
+              <div className="flex items-center gap-4 text-[0.6875rem] tracking-[0.2em] text-taupe-ink" aria-hidden="true">
                 <span className="serif text-[1.125rem] tracking-normal text-charcoal">0{stage + 1}</span>
                 <div className="flex gap-2">
                   {[0, 1, 2].map((index) => (

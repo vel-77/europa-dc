@@ -18,7 +18,7 @@ const manrope = localFont({
 export const metadata: Metadata = {
   title: "Europa Design Center | Kitchens, Bathrooms, Surfaces & Interiors",
   description:
-    "Europa DC designs and installs European kitchens, bathrooms, closets and complete interiors. Custom cabinetry, Dekton surfaces, fixtures and architectural details from one showroom in Glendale, California.",
+    "Europa DC designs and installs European kitchens, bathrooms, closets, and complete interiors. Custom cabinetry, Dekton surfaces, fixtures, and architectural details from one showroom in Glendale, California.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

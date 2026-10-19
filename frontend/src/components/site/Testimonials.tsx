@@ -160,7 +160,7 @@ export function Testimonials({ testimonials }: { testimonials: TestimonialView[]
             </h2>
           </div>
           <p className="col-span-12 lg:col-span-4 lg:col-start-9 text-[1rem] leading-[1.7] text-ink/75 reveal">
-            Every project is personal. From the first conversation to the final details, we’re proud to build lasting
+            Every project is personal. From the first conversation to the final detail, we’re proud to build lasting
             relationships through thoughtful design, trusted guidance, and an uncompromising commitment to quality.
           </p>
         </div>

@@ -10,7 +10,7 @@ import { getCatalog, getSite, uploadUrl } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Catalog | Europa Design Center",
-  description: "Kitchens, bathrooms, closets, outdoor spaces, surfaces and details designed and installed by Europa DC in Glendale.",
+  description: "Kitchens, bathrooms, closets, outdoor spaces, surfaces, and details designed and installed by Europa DC in Glendale.",
 };
 
 const pad = (n: number) => String(n + 1).padStart(2, "0");
@@ -35,7 +35,7 @@ export default async function CatalogPage() {
                 </h1>
               </div>
               <p className="col-span-12 lg:col-span-5 text-lead text-ink/80 reveal">
-                Kitchens, bathrooms, closets and more. Every design can be adapted to your space; ask us about any of them.
+                Kitchens, bathrooms, closets, and more. Every design can be adapted to your space; ask us about any of them.
               </p>
             </div>
 
