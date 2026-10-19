@@ -9,8 +9,7 @@ import java.util.UUID;
 
 import com.europadc.backend.FileStorage;
 
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.SmartLifecycle;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,28 @@ import org.springframework.transaction.annotation.Transactional;
  * replaced in the admin panel.
  */
 @Component
-class SiteSeeder implements ApplicationRunner {
+class SiteSeeder implements SmartLifecycle {
+
+	// A lifecycle bean in an early phase runs before the web server, which
+	// starts in one of the last phases, so no request ever sees an empty or
+	// half-upgraded database.
+	private volatile boolean done;
+
+	@Override
+	public int getPhase() {
+		return 0;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return done;
+	}
+
+	@Override
+	public void stop() {
+		done = false;
+	}
+
 
 	private final SiteSettingsRepository settings;
 	private final CategoryRepository categories;
@@ -62,7 +82,12 @@ class SiteSeeder implements ApplicationRunner {
 
 	@Override
 	@Transactional
-	public void run(ApplicationArguments args) {
+	public void start() {
+		seed();
+		done = true;
+	}
+
+	private void seed() {
 		SiteSettings existing = settings.findById(SiteService.SETTINGS_ID).orElse(null);
 		if (existing == null) {
 			seedNewSite();
