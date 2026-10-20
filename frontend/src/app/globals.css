@@ -2,6 +2,9 @@
    (design/Europa DC/Europa Landing - Hero Section 4.html). */
 @import "tailwindcss";
 
+/* Phones with a short screen, where the hero picture gives up some height to its text. */
+@custom-variant short-phone (@media (width < 48rem) and (height <= 720px));
+
 @theme inline {
   --color-ivory: #f5f1ea;
   --color-paper: #fbf9f5;
@@ -114,6 +117,16 @@
   letter-spacing: -0.015em;
   @media (min-width: 48rem) {
     font-size: clamp(2.5rem, 3.97vw, 4rem);
+    white-space: nowrap;
+  }
+}
+/* The hero's titles: the section title style, a size larger. */
+@utility hero-ttl {
+  font-size: 2.625rem;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  @media (min-width: 48rem) {
+    font-size: clamp(3rem, 5.2vw, 5.25rem);
     white-space: nowrap;
   }
 }
@@ -339,9 +352,6 @@
       -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
       border-radius: 2px;
-    }
-    #hero .hero-copy .ttl {
-      line-height: 1.05;
     }
   }
 

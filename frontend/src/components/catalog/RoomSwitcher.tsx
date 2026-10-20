@@ -23,7 +23,7 @@ export function RoomSwitcher({ rooms, current }: { rooms: Room[]; current?: stri
     }`;
 
   return (
-    <nav aria-label="Rooms" className="sticky top-20 lg:top-15 z-30 mt-20 lg:mt-15 bg-ivory/95 border-b border-line">
+    <nav aria-label="Rooms" className="sticky top-20 z-30 mt-20 bg-ivory/95 border-b border-line">
       <ul ref={list} className="shell flex gap-7 lg:gap-10 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <li>
           <Link href="/catalog" className={tab(!current)} aria-current={!current ? "page" : undefined}>

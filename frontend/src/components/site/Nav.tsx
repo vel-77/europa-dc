@@ -36,11 +36,11 @@ export function Nav({ home = false }: { home?: boolean }) {
         id="nav"
         className={`fixed inset-x-0 top-0 z-50 transition-colors duration-700 ${home ? "" : "bg-ivory/95 border-b border-line"}`}
       >
-        <div className="shell flex h-20 lg:h-15 items-center justify-between gap-6">
-          <Link href={home ? "#top" : "/"} className="flex items-center" aria-label={home ? "Europa Design Center, back to top" : "Europa Design Center home"}>
-            <img src={asset("/europa-logo-black.png")} alt="Europa DC Inc." className="h-9 lg:h-10 w-auto" />
+        <div className="shell flex h-20 items-center justify-between gap-6">
+          <Link href={home ? "#top" : "/"} className="flex shrink-0 items-center" aria-label={home ? "Europa Design Center, back to top" : "Europa Design Center home"}>
+            <img src={asset("/europa-logo-black.png")} alt="Europa DC Inc." className="h-12 lg:h-14 w-auto" />
           </Link>
-          <nav className="hidden lg:flex items-center gap-9 text-[0.8125rem] text-ink" aria-label="Sections">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-9 text-[0.9375rem] text-ink" aria-label="Sections">
             {LINKS.map(([hash, label]) => (
               <Link key={label} href={href(hash)}>
                 {label}
@@ -48,7 +48,7 @@ export function Nav({ home = false }: { home?: boolean }) {
             ))}
           </nav>
           <div className="flex items-center gap-4">
-            <Link href={href("#contact")} className="btn btn-ghost hidden md:inline-flex">
+            <Link href={href("#contact")} className="btn btn-ghost btn-lg text-[1rem] hidden md:inline-flex">
               Book a Consultation
             </Link>
             <button

@@ -180,6 +180,22 @@
       "visible": true
     },
     {
+      "id": "b991c11e-f4b5-46db-be04-9e37d53dcd1c",
+      "name": "Bauformat",
+      "categoryId": "cabinets",
+      "url": "https://bauformatusa.com",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "7f44ea78-846d-46ba-87fc-99d251a7b08d",
+      "name": "Dekton",
+      "categoryId": "stonework",
+      "url": "https://www.cosentino.com/usa/dekton/",
+      "logo": null,
+      "visible": true
+    },
+    {
       "id": "b5351457-a217-4dcc-b5dd-34c6f6e1e1b6",
       "name": "Gaggenau",
       "categoryId": "appliances",
@@ -188,10 +204,26 @@
       "visible": true
     },
     {
-      "id": "4de90dea-525e-40f6-a7fe-045b3c810cec",
-      "name": "SMEG",
-      "categoryId": "appliances",
-      "url": "https://www.smegusa.com",
+      "id": "6baec0ed-834e-4d18-8221-980fadc7645d",
+      "name": "Baulux",
+      "categoryId": "cabinets",
+      "url": "https://bauformatusa.com",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "e27c6f81-e18f-4e85-b9ec-84025bfa9727",
+      "name": "Silestone",
+      "categoryId": "stonework",
+      "url": "https://www.cosentino.com/usa/silestone/",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "97ce3999-fc2e-4072-8b31-9f6953669226",
+      "name": "Sensa",
+      "categoryId": "stonework",
+      "url": "https://www.cosentino.com/usa/sensa/",
       "logo": null,
       "visible": true
     },
@@ -248,6 +280,22 @@
       "name": "Ruvati",
       "categoryId": "plumbing-fixtures",
       "url": "https://www.ruvati.com",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "c0ad8b00-551c-4c54-b5b2-2af2cdc20edd",
+      "name": "TOTO",
+      "categoryId": "plumbing-fixtures",
+      "url": "https://www.totousa.com",
+      "logo": null,
+      "visible": true
+    },
+    {
+      "id": "351123bc-51b7-4763-8b67-d9c34d177f73",
+      "name": "Baril",
+      "categoryId": "plumbing-fixtures",
+      "url": "https://barildesign.com/en/",
       "logo": null,
       "visible": true
     }

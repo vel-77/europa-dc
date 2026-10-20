@@ -55,10 +55,20 @@ class SiteSeeder implements SmartLifecycle {
 
 	/**
 	 * Content upgrades applied so far. 1: the original site. 2: room addresses,
-	 * intros and the catalog. 3: copy fixes in seeded text. Raise it when adding
-	 * an upgrade to run().
+	 * intros and the catalog. 3: copy fixes in seeded text. 4: brand list
+	 * update. Raise it when adding an upgrade to run().
 	 */
-	static final int CONTENT_VERSION = 3;
+	static final int CONTENT_VERSION = 4;
+
+	/** Brands added in upgrade 4, as name, category id and website. */
+	private static final List<List<String>> ADDED_BRANDS = List.of(
+			List.of("Bauformat", "cabinets", "https://bauformatusa.com"),
+			List.of("Baulux", "cabinets", "https://bauformatusa.com"),
+			List.of("Dekton", "stonework", "https://www.cosentino.com/usa/dekton/"),
+			List.of("Silestone", "stonework", "https://www.cosentino.com/usa/silestone/"),
+			List.of("Sensa", "stonework", "https://www.cosentino.com/usa/sensa/"),
+			List.of("TOTO", "plumbing-fixtures", "https://www.totousa.com"),
+			List.of("Baril", "plumbing-fixtures", "https://barildesign.com/en/"));
 
 	private static final Map<String, String> INTROS = Map.of(
 			"kitchens", "Custom European cabinetry, stone, and built-in appliances, planned together around the way you cook and gather.",
@@ -120,6 +130,9 @@ class SiteSeeder implements SmartLifecycle {
 		if (version < 3) {
 			fixSeededText(existing);
 		}
+		if (version < 4) {
+			updateBrands();
+		}
 		if (version < CONTENT_VERSION) {
 			existing.setContentVersion(CONTENT_VERSION);
 			settings.save(existing);
@@ -157,6 +170,24 @@ class SiteSeeder implements SmartLifecycle {
 		List<CatalogItem> items = catalog.findAll();
 		items.forEach(item -> item.setDescription(fixed(item.getDescription())));
 		catalog.saveAll(items);
+	}
+
+	/**
+	 * Upgrade 4: SMEG comes off the brand list; surface, cabinetry and plumbing
+	 * brands go on. A brand already listed under any category is not added twice.
+	 */
+	private void updateBrands() {
+		List<Brand> listed = brands.findAll();
+		listed.stream().filter(brand -> brand.getName().equalsIgnoreCase("SMEG")).forEach(brand -> {
+			brands.delete(brand);
+			files.deleteUpload(brand.getLogo());
+		});
+		for (List<String> added : ADDED_BRANDS) {
+			boolean present = listed.stream().anyMatch(brand -> brand.getName().equalsIgnoreCase(added.get(0)));
+			if (!present && categories.existsById(added.get(1))) {
+				brand(added.get(0), added.get(1), added.get(2));
+			}
+		}
 	}
 
 	private static String fixed(String text) {
@@ -209,7 +240,6 @@ class SiteSeeder implements SmartLifecycle {
 
 		brand("Miele", "appliances", "https://www.mieleusa.com");
 		brand("Gaggenau", "appliances", "https://www.gaggenau.com/us");
-		brand("SMEG", "appliances", "https://www.smegusa.com");
 		brand("PITT", "appliances", "https://www.pittcooking.com");
 		brand("Invisacook", "appliances", "https://invisacook.com");
 		brand("Fisher & Paykel", "appliances", "https://www.fisherpaykel.com/us");
@@ -217,6 +247,7 @@ class SiteSeeder implements SmartLifecycle {
 		brand("Grohe", "plumbing-fixtures", "https://www.grohe.us");
 		brand("Hansgrohe", "plumbing-fixtures", "https://www.hansgrohe-usa.com");
 		brand("Ruvati", "plumbing-fixtures", "https://www.ruvati.com");
+		ADDED_BRANDS.forEach(added -> brand(added.get(0), added.get(1), added.get(2)));
 	}
 
 	/** Copies a bundled image from src/main/resources/seed into the uploads folder. */
@@ -333,7 +364,7 @@ class SiteSeeder implements SmartLifecycle {
 		brand.setCategoryId(categoryId);
 		brand.setUrl(url);
 		brand.setVisible(true);
-		brand.setSortOrder((int) brands.count());
+		brand.setSortOrder(ContentService.nextOrder(brands.findByCategoryIdOrderBySortOrderAsc(categoryId), Brand::getSortOrder));
 		brands.save(brand);
 	}
 

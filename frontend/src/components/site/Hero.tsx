@@ -22,15 +22,15 @@ const DECODES_AT_ONCE = 3;
 const STAGES = [
   {
     title: ["Spaces That Speak", "Before You Do."],
-    text: "European design. Exceptional materials. Interiors created to leave a lasting impression.",
+    text: ["European design. Exceptional materials.", "Interiors created to leave a lasting impression."],
   },
   {
     title: ["Premium materials.", "Thoughtful details."],
-    text: "From Dekton surfaces to custom cabinetry and carefully selected fixtures, every element is considered.",
+    text: ["From Dekton surfaces to custom cabinetry and carefully selected fixtures, every element is considered."],
   },
   {
     title: ["Your vision,", "brought to life."],
-    text: "A complete kitchen designed around the way you live.",
+    text: ["A complete kitchen designed around the way you live."],
   },
 ];
 
@@ -309,7 +309,7 @@ export function Hero() {
   return (
     <>
       <div className="fixed top-0 left-0 w-full h-full z-0 overflow-hidden bg-white" aria-hidden="true">
-        <canvas ref={canvas} className="block w-full h-[52svh] md:h-full" />
+        <canvas ref={canvas} className="block w-full h-[52svh] short-phone:h-[46svh] md:h-full" />
       </div>
       <section id="hero" ref={section} className="relative h-[340vh]">
         <div className="sticky top-0 z-10 h-[100svh] overflow-hidden">
@@ -317,17 +317,25 @@ export function Hero() {
           <div className="shell relative h-full">
             <div className="grid-12 h-full">
               <div className="relative col-span-12 md:col-span-7 lg:col-span-6 h-full">
-                <div className="hero-copy absolute inset-x-0 top-[calc(52svh+1.5rem)] bottom-[7.5rem] md:top-0 md:bottom-0">
+                <div className="hero-copy absolute inset-x-0 top-[calc(52svh+1.5rem)] short-phone:top-[calc(46svh+1.25rem)] bottom-[7.5rem] md:top-0 md:bottom-0">
                   {STAGES.map((item, index) => {
                     const Heading = index === 0 ? "h1" : "h2";
                     return (
                       <div key={index} className={`stage ${index === stage ? "on" : ""}`}>
-                        <Heading className="serif ttl">
+                        <Heading className="serif hero-ttl">
                           {item.title[0]}
                           <br />
                           {item.title[1]}
                         </Heading>
-                        <p className="mt-5 lg:mt-8 max-w-none text-lead text-ink/80">{item.text}</p>
+                        <p className="mt-5 lg:mt-8 max-w-none text-[clamp(1.125rem,1.45vw,1.375rem)] leading-[1.6] text-ink/80">
+                          {/* One line each from tablet width up; phones are too narrow, so the text wraps there. */}
+                          {item.text.map((line, lineIndex) => (
+                            <span key={lineIndex} className="md:block">
+                              {lineIndex > 0 && " "}
+                              {line}
+                            </span>
+                          ))}
+                        </p>
                         {index === 2 && (
                           <div className="mt-8 lg:mt-12">
                             <a href="#contact" className="btn btn-dark btn-lg" tabIndex={stage === 2 ? 0 : -1}>
