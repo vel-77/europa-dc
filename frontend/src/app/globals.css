@@ -433,15 +433,17 @@
     box-shadow: 0 0 0 1px var(--color-bronze);
   }
 
-  /* Materials: the stone texture drifts under the cursor. */
+  /* Materials: the kitchen photo drifts under the cursor. The portrait photo
+     is framed on the shelves, cooktop and island corner; the text box covers
+     the island's side. */
   .tactile {
     overflow: hidden;
   }
   .tactile .tex {
     position: absolute;
     inset: -4%;
-    background-size: 330% auto;
-    background-position: 62% 86%;
+    background-size: cover;
+    background-position: 50% 29%;
     transition: transform 1.4s var(--ease-arch);
   }
   .mat-row,

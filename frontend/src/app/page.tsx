@@ -225,7 +225,7 @@ export default async function Home() {
             </div>
             <div className="mt-16 lg:mt-24 grid-12 gap-y-10 items-stretch">
               <div id="dekton-panel" className="tactile col-span-12 lg:col-span-8 relative min-h-[28rem] lg:min-h-[44rem] bg-charcoal reveal-img">
-                <div className="tex" style={{ backgroundImage: `url(${asset("/img/dekton-texture.jpg")})` }} />
+                <div className="tex" style={{ backgroundImage: `url(${asset("/img/dekton-kitchen.webp")})` }} />
                 <div className="absolute left-0 bottom-0 bg-ivory p-6 md:p-10 max-w-[30rem] z-[1]">
                   <p className="eyebrow text-taupe-ink">Surfaces · Featured</p>
                   <h3 className="serif mt-4 text-[clamp(3rem,5.4vw,5.5rem)] leading-none">
@@ -239,10 +239,11 @@ export default async function Home() {
               </div>
               <div className="hidden lg:flex col-span-12 lg:col-span-4 flex-col justify-between gap-10">
                 <div className="frame aspect-[4/3] lg:aspect-auto lg:flex-1 reveal-img">
-                  <img src={asset("/img/mat-dekton-detail.webp")} alt="Dekton slab detail" loading="lazy" />
+                  <img src={asset("/img/dekton-island-edge.webp")} alt="Waterfall corner of a light stone kitchen island" loading="lazy" />
                 </div>
                 <p className="text-[0.9375rem] leading-[1.7] text-ink/75 reveal">
-                  Seen at the showroom in full slabs, so finish, veining, and edge details can be judged at true scale.
+                  Explore our curated selection of material samples at our showroom, where you can experience colors, textures,
+                  and finishes up close to find the perfect fit for your project.
                 </p>
               </div>
             </div>
